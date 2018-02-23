@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180223123859) do
+ActiveRecord::Schema.define(version: 20180223125137) do
 
   create_table "goals", force: :cascade do |t|
     t.string "description"
@@ -18,7 +18,7 @@ ActiveRecord::Schema.define(version: 20180223123859) do
     t.date "end_date"
     t.integer "longest_streak"
     t.integer "interval"
-    t.integer "status"
+    t.integer "status", default: 0
     t.integer "priority"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
