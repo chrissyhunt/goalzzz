@@ -7,4 +7,5 @@ class Goal < ApplicationRecord
   enum status: [ :open, :completed ]
   enum interval: [ :daily, :weekly, :monthly ]
   enum priority: [ :high, :medium, :low ]
+  validates :description, :start_date, :end_date, :interval, :user_id, presence: true
 end
