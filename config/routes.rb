@@ -1,7 +1,6 @@
 Rails.application.routes.draw do
-  resources :users do
-    resources :goals
-  end
+  resources :users
+  resources :goals
   resources :reflections
   resources :results
   resources :sessions, only: [:create, :destroy]

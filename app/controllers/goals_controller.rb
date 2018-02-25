@@ -11,12 +11,12 @@ class GoalsController < ApplicationController
   end
 
   def new
-    @user = User.find_by(id: params[:user_id])
     @goal = Goal.new
   end
 
   def create
     @goal = Goal.new(goal_params)
+    @goal.user_id = current_user.id
 
     if @goal.save
       redirect_to goal_path(@goal)
@@ -44,7 +44,7 @@ class GoalsController < ApplicationController
 
   private
 
-  def goals_params
-    params.require(:goals).permit(:description, :start_date, :end_date, :interval, :priority, :user_id)
+  def goal_params
+    params.require(:goal).permit(:description, :start_date, :end_date, :interval, :priority, :user_id)
   end
 end
