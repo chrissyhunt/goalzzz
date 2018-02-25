@@ -1,0 +1,7 @@
+<ul>
+  <% if logged_in? %>
+    <li><%= "Welcome, #{current_user.name}!" %></li>
+    <li><%= link_to("Edit your account", edit_user_path(current_user)) %></li>
+    <li><%= link_to("Sign Out", session_path(session), :method => 'delete') %></li>
+  <% end %>
+</ul>
