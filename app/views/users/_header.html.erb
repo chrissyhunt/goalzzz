@@ -3,5 +3,6 @@
     <li><%= "Welcome, #{current_user.name}!" %></li>
     <li><%= link_to("Edit your account", edit_user_path(current_user)) %></li>
     <li><%= link_to("Sign Out", session_path(session), :method => 'delete') %></li>
+    <li><%= link_to("Your Goals", goals_path) %></li>
   <% end %>
 </ul>

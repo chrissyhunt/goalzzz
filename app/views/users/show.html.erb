@@ -1,1 +1,12 @@
-<h1>User Show</h1>
+<%= render 'header' %>
+
+<div class="container-fluid">
+
+  <div class="row align-items-center">
+    <div class="col-12">
+      <h1>Welcome, <%= current_user.name %>!</h1>
+
+      <p>You've set <%= current_user.goals.count %> goals.</p>
+    </div>
+  </div>
+</div>

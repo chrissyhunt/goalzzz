@@ -1,22 +1,18 @@
 <%= render 'header' %>
-<h1>Users Index</h1>
+<div class="container-fluid">
+  <div class="row align-items-center">
+    <div class="col-12">
+      <h1>goalzzz</h1>
 
-<% if logged_in? %>
-  <h3>Welcome, <%= current_user.name %></h3>
-  <p><%= link_to "View your goals", goals_path %></p>
-  <p><%= link_to "Add a new goal", new_goal_path %></p>
+        <%= form_tag sessions_path, :method => 'post' do %>
+          <%= label_tag :email, "Email: " %>
+          <%= text_field_tag :email %><br />
 
-  <h3>Recent Activity</h3>
-  <p>Recent activity here.</p>
-<% else %>
-  <h3>Login</h3>
-  <%= form_tag sessions_path, :method => 'post' do %>
-    <%= label_tag :email, "Email: " %>
-    <%= text_field_tag :email %><br />
+          <%= label_tag :password, "Password: " %>
+          <%= password_field_tag :password %><br />
 
-    <%= label_tag :password, "Password: " %>
-    <%= password_field_tag :password %><br />
-
-    <%= submit_tag "Sign In"%>
-  <% end %>
-<% end %>
+          <%= submit_tag "Sign In"%>
+        <% end %>
+    </div>
+  </div>
+</div>

@@ -1,1 +1,15 @@
-<h1>Goal Show</h1>
+<%= render 'users/header' %>
+
+<h1><%= @goal.description %></h1>
+
+<p>Progress:<br />
+  <% if @goal.results.any? %>
+    <% @goal.results.each do |result| %>
+      <% "X " if result.status == "success" %>
+      <% "- " if result.status == "failure" %>
+    <% end %>
+  <% else %>
+    <br /> You haven't recorded any results yet.
+  <% end %>
+  <br /><%= link_to "Update your results.", new_result_path %>
+</p>

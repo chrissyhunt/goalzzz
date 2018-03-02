@@ -1,1 +1,9 @@
-<h1>User Goals</h1>
+<%= render 'users/header' %>
+
+<h1><%= current_user.name %>'s Goals</h1>
+
+<ul>
+  <% current_user.goals.each do |goal| %>
+    <li><%= link_to "#{goal.description}", goal_path(goal) %></li>
+  <% end %>
+</ul>
