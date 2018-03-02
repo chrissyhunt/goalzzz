@@ -1,8 +1,9 @@
 Rails.application.routes.draw do
   resources :users
-  resources :goals
+  resources :goals do
+    resources :results, only: [:new, :create, :edit, :update]
+  end
   resources :reflections
-  resources :results
   resources :sessions, only: [:create, :destroy]
 
   root 'users#index'

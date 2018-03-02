@@ -1,0 +1,9 @@
+<%= render 'users/header' %>
+
+<h1>Add New Result</h1>
+
+<%= form_for @result, url: goal_results_path do |f| %>
+  Date: <%= f.date_field :date %><br />
+  Result: <%= f.select :status, Result.statuses.keys %><br />
+  <%= f.submit %>
+<% end %>
