@@ -15,5 +15,44 @@
  */
 
 body {
-  font-family: courier;
+  font-family: Courier;
+}
+
+div.container {
+  width: 80%;
+  border: 1px solid #000000;
+}
+
+div.login {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+}
+
+div.main {
+  text-align: center;
+  padding: 10% 0;
+}
+
+div.main li {
+  list-style-type: none;
+}
+
+div.table-header {
+  background-color: #000;
+  color: #FFF;
+}
+
+div.left-col {
+  border-right: 1px solid #EEE;
+}
+
+div.notes-col {
+  text-align: left;
+}
+
+li.nav-item {
+  padding: 10px 20px;
 }

@@ -1,9 +1,15 @@
 <%= render 'users/header' %>
 
-<h1><%= current_user.name %>'s Goals</h1>
+<div class="row">
+  <div class="col-12 main">
 
-<ul>
-  <% current_user.goals.each do |goal| %>
-    <li><%= link_to "#{goal.description}", goal_path(goal) %></li>
-  <% end %>
-</ul>
+    <h1><%= current_user.name %>'s Goals</h1>
+
+    <ul>
+      <% current_user.goals.each do |goal| %>
+        <li><%= link_to "#{goal.description}", goal_path(goal) %></li>
+      <% end %>
+    </ul>
+
+  </div>
+</div>

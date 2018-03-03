@@ -1,42 +1,47 @@
 <%= render 'users/header' %>
 
-<h1><%= @goal.description %></h1>
-
-<p>Progress:<br />
-
 <div class="row">
-  <div class="col-4">
-    <strong>Date:</strong>
-  </div>
+  <div class="col-12 main">
 
-  <div class="col-4">
-    <strong>Result:</strong>
-  </div>
+    <h1><%= @goal.description %></h1>
 
-  <div class="col-4">
-    <strong>Notes:</strong>
+    <p>You're (percent) done, with a (percent) success rate so far!</p>
+    <p><%= link_to "Update your results", new_goal_result_path(@goal) %></p>
+
+
+    <div class="row">
+      <div class="col-2 table-header">
+        <strong>Date:</strong>
+      </div>
+
+      <div class="col-2 table-header">
+        <strong>Result:</strong>
+      </div>
+
+      <div class="col-8 table-header">
+        <strong>Notes:</strong>
+      </div>
+    </div>
+
+    <% generate_date_range(@goal.start_date, @goal.end_date, @goal.interval).each do |date| %>
+      <div class="row">
+        <div class="col-2 left-col">
+          <%= "#{date}" %>
+        </div>
+        <div class="col-2 left-col">
+          <% if @goal.result_by_date(date) %>
+            <%= "#{@goal.result_by_date(date).status}" %>
+          <% else %>
+            -
+          <% end %>
+        </div>
+        <div class="col-8 notes-col">
+          <% if @goal.reflection_by_date(date) %>
+            <%= "#{@goal.reflection_by_date(date).content}" %>
+          <% end %>
+        </div>
+
+      </div>
+    <% end %>
   </div>
 </div>
-
-<% generate_date_range(@goal.start_date, @goal.end_date, @goal.interval).each do |date| %>
-  <div class="row">
-    <div class="col-4">
-      <%= "#{date}" %>
-    </div>
-    <div class="col-4">
-      <% if @goal.result_by_date(date) %>
-        <%= "#{@goal.result_by_date(date).status}" %>
-      <% else %>
-        -
-      <% end %>
-    </div>
-    <div class="col-4">
-      <% if @goal.reflection_by_date(date) %>
-        <%= "#{@goal.reflection_by_date(date).content}" %>
-      <% end %>
-    </div>
-
-  </div>
-<% end %>
-
-<p><%= link_to "Add a new result.", new_goal_result_path(@goal) %></p>
