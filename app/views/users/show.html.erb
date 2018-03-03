@@ -6,7 +6,9 @@
     <div class="col-12">
       <h1>Welcome, <%= current_user.name %>!</h1>
 
-      <p>You've set <%= current_user.goals.count %> goals.</p>
+      <p>You've set <%= current_user.goals.count %> goals. <%= link_to "View your goals.", goals_path %></p>
+
+      <p>Your average success rate is 65%. Not bad!</p>
     </div>
   </div>
 </div>

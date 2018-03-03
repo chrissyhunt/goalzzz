@@ -3,13 +3,31 @@
 <h1><%= @goal.description %></h1>
 
 <p>Progress:<br />
-  <% if @goal.results.any? %>
-    <% @goal.results.each do |result| %>
-      <% "X " if result.status == "success" %>
-      <% "- " if result.status == "failure" %>
-    <% end %>
-  <% else %>
-    <br /> You haven't recorded any results yet.
-  <% end %>
+
+<div class="row">
+
+  <div class="col-4">
+    Date:
+  </div>
+
+  <div class="col-4">
+    Result:
+  </div>
+
+  <div class="col-4">
+    Notes:
+  </div>
+</div>
+
+<% @goal.results.each do |result| %>
+  <div class="row">
+    <div class="col-4">
+      <%= "#{result.date}" %>
+    </div>
+    <div class="col-4">
+      <%= "#{result.status}" %>
+    </div>
+  </div>
+<% end %>
   <br /><%= link_to "Update your results.", new_goal_result_path(@goal) %>
 </p>
