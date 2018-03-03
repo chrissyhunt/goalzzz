@@ -5,29 +5,31 @@
 <p>Progress:<br />
 
 <div class="row">
-
   <div class="col-4">
-    Date:
+    <strong>Date:</strong>
   </div>
 
   <div class="col-4">
-    Result:
+    <strong>Result:</strong>
   </div>
 
   <div class="col-4">
-    Notes:
+    <strong>Notes:</strong>
   </div>
 </div>
 
-<% @goal.results.each do |result| %>
+<% generate_date_range(@goal.start_date, @goal.end_date, @goal.interval).each do |date| %>
   <div class="row">
     <div class="col-4">
-      <%= "#{result.date}" %>
+      <%= "#{date}" %>
     </div>
     <div class="col-4">
-      <%= "#{result.status}" %>
+      <% if @goal.results.find_by(goal_id: @goal.id, date: date) %>
+        <%= "#{@goal.results.find_by(goal_id: @goal.id, date: date).status}" %>
+      <% else %>
+        -
+      <% end %>
     </div>
+
   </div>
 <% end %>
-  <br /><%= link_to "Update your results.", new_goal_result_path(@goal) %>
-</p>

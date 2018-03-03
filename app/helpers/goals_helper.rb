@@ -1,8 +1,8 @@
 module GoalsHelper
 
   def generate_date_range(start_date, end_date, interval)
-    start_date = Date.parse(start_date)
-    end_date = Date.parse(end_date)
+    start_date = start_date.to_date
+    end_date = end_date.to_date
     date_range = start_date..end_date
     all_dates = []
 
@@ -18,5 +18,5 @@ module GoalsHelper
 
     all_dates
   end
-  
+
 end
