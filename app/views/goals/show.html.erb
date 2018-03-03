@@ -24,12 +24,19 @@
       <%= "#{date}" %>
     </div>
     <div class="col-4">
-      <% if @goal.results.find_by(goal_id: @goal.id, date: date) %>
-        <%= "#{@goal.results.find_by(goal_id: @goal.id, date: date).status}" %>
+      <% if @goal.result_by_date(date) %>
+        <%= "#{@goal.result_by_date(date).status}" %>
       <% else %>
         -
+      <% end %>
+    </div>
+    <div class="col-4">
+      <% if @goal.reflection_by_date(date) %>
+        <%= "#{@goal.reflection_by_date(date).content}" %>
       <% end %>
     </div>
 
   </div>
 <% end %>
+
+<p><%= link_to "Add a new result.", new_goal_result_path(@goal) %></p>

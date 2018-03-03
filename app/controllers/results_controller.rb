@@ -9,7 +9,14 @@ class ResultsController < ApplicationController
     @result.goal_id = params[:goal_id]
 
     if @result.save
-      redirect_to goal_path(Goal.find_by(id: params[:goal_id]))
+      @reflection = Reflection.new(reflection_params)
+      @reflection.result_id = @result.id
+      
+      if @reflection.save
+        redirect_to goal_path(Goal.find_by(id: params[:goal_id]))
+      else
+        render :new
+      end
     else
       render :new
     end
@@ -25,5 +32,9 @@ class ResultsController < ApplicationController
 
   def result_params
     params.require(:result).permit(:date, :status, :goal_id)
+  end
+
+  def reflection_params
+    params.require(:result).require(:reflections).permit(:content)
   end
 end
