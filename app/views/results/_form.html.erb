@@ -1,0 +1,9 @@
+<%= form_for @result, url: goal_results_path do |f| %>
+  Date: <%= f.date_field :date %><br />
+  Result: <%= f.select :status, Result.statuses.keys %><br />
+  <%= f.fields_for :reflections do |refl| %>
+    Notes:<br />
+    <%= refl.text_area :content, cols: 40, rows: 10 %><br>
+  <% end %>
+  <%= f.submit %>
+<% end %>

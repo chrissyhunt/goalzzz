@@ -1,13 +1,11 @@
 <%= render 'users/header' %>
 
-<h1>Add New Result</h1>
+<div class="row">
+  <div class="col-12 main">
 
-<%= form_for @result, url: goal_results_path do |f| %>
-  Date: <%= f.date_field :date %><br />
-  Result: <%= f.select :status, Result.statuses.keys %><br />
-  <%= f.fields_for :reflections do |refl| %>
-    Notes:<br />
-    <%= refl.text_field :content %><br>
-  <% end %>
-  <%= f.submit %>
-<% end %>
+  <h1>Add New Result</h1>
+
+  <%= render 'form' %>
+
+  </div>
+</div>
