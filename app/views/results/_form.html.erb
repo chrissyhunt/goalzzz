@@ -1,3 +1,18 @@
+<% if @result.errors.any? %>
+  <div id="error_explanation">
+    <h4>
+      <%= pluralize(@result.errors.count, "error") %>
+      prohibited this post from being saved:
+    </h4>
+
+    <ul>
+    <% @result.errors.full_messages.each do |msg| %>
+      <li><%= msg %></li>
+    <% end %>
+    </ul>
+  </div>
+<% end %>
+
 <%= form_for @result, url: goal_results_path do |f| %>
   Date: <%= f.date_field :date %><br />
   Result: <%= f.select :status, Result.statuses.keys %><br />

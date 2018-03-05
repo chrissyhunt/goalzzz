@@ -2,24 +2,36 @@ class ResultsController < ApplicationController
   before_action :require_login
 
   def new
-    @result = Result.new
+    @goal = Goal.find_by(id: params[:goal_id])
+
+    if @goal.user != current_user
+      redirect_to goals_path
+    else
+      @result = Result.new
+    end
   end
 
   def create
-    @result = Result.new(result_params)
-    @result.goal_id = params[:goal_id]
+    @goal = Goal.find_by(id: params[:goal_id])
 
-    if @result.save
-      @reflection = Reflection.new(reflection_params)
-      @reflection.result_id = @result.id
+    if @goal.user != current_user
+      redirect_to goals_path
+    else
+      @result = Result.new(result_params)
+      @result.goal_id = params[:goal_id]
 
-      if @reflection.save
-        redirect_to goal_path(Goal.find_by(id: params[:goal_id]))
+      if @result.save
+        @reflection = Reflection.new(reflection_params)
+        @reflection.result_id = @result.id
+
+        if @reflection.save
+          redirect_to goal_path(Goal.find_by(id: params[:goal_id]))
+        else
+          render :new
+        end
       else
         render :new
       end
-    else
-      render :new
     end
   end
 

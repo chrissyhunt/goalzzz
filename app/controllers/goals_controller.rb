@@ -2,13 +2,16 @@ class GoalsController < ApplicationController
   before_action :require_login
 
   def index
-    @user = current_user
-    @goals = @user.goals
   end
 
   def show
-    @user = User.find_by(id: params[:user_id])
     @goal = Goal.find_by(id: params[:id])
+
+    if @goal.user != current_user
+      redirect_to goals_path
+    else
+      render :show
+    end
   end
 
   def new
@@ -27,19 +30,28 @@ class GoalsController < ApplicationController
   end
 
   def edit
-    @user = User.find_by(id: params[:user_id])
     @goal = Goal.find_by(id: params[:id])
+
+    if @goal.user != current_user
+      redirect_to goals_path
+    else
+      render :edit
+    end
   end
 
   def update
-    @user = User.find_by(id: params[:user_id])
     @goal = Goal.find_by(id: params[:id])
-    @goal.update(goal_params)
 
-    if @goal.save
-      redirect_to goal_path(@goal)
+    if @goal.user != current_user
+      redirect_to goals_path
     else
-      render :edit
+      @goal.update(goal_params)
+
+      if @goal.save
+        redirect_to goal_path(@goal)
+      else
+        render :edit
+      end
     end
   end
 

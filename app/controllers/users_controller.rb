@@ -11,7 +11,11 @@ class UsersController < ApplicationController
   end
 
   def new
-    @user = User.new
+    if logged_in?
+      redirect_to user_path(current_user)
+    else
+      @user = User.new
+    end
   end
 
   def create
@@ -26,20 +30,37 @@ class UsersController < ApplicationController
 
   def show
     @user = User.find_by(id: params[:id])
+
+    if @user != current_user
+      redirect_to user_path(current_user)
+    else
+      render :show
+    end
   end
 
   def edit
     @user = User.find_by(id: params[:id])
+
+    if @user != current_user
+      redirect_to user_path(current_user)
+    else
+      render :edit
+    end
   end
 
   def update
     @user = User.find_by(id: params[:id])
-    @user.update(user_params)
 
-    if @user && @user.save
-      redirect_to user_path(@user)
+    if @user != current_user
+      redirect_to user_path(current_user)
     else
-      render :edit
+      @user.update(user_params)
+
+      if @user && @user.save
+        redirect_to user_path(@user)
+      else
+        render :edit
+      end
     end
   end
 

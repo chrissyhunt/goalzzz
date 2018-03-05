@@ -1,8 +1,8 @@
   <ul class="nav justify-content-center">
     <% if logged_in? %>
-      <li class="nav-item"><%= "Welcome, #{current_user.name}!" %></li>
-      <li class="nav-item"><%= link_to("Edit your account", edit_user_path(current_user)) %></li>
-      <li class="nav-item"><%= link_to("Your Goals", goals_path) %></li>
-      <li class="nav-item"><%= link_to("Sign Out", session_path(session), :method => 'delete') %></li>
+      <li class="nav-item"><%= link_to "Home", user_path(current_user) %></li>
+      <li class="nav-item"><%= link_to "Edit your account", edit_user_path(current_user) %></li>
+      <li class="nav-item"><%= link_to "Your Goals", goals_path %></li>
+      <li class="nav-item"><%= link_to "Sign Out", session_path(session), :method => 'delete' %></li>
     <% end %>
   </ul>

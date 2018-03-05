@@ -35,10 +35,6 @@ div.main {
   padding: 10% 0;
 }
 
-div.main li {
-  list-style-type: none;
-}
-
 div.table-header {
   background-color: #000;
   color: #FFF;

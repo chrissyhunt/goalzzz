@@ -1,3 +1,18 @@
+<% if @goal.errors.any? %>
+  <div id="error_explanation">
+    <h4>
+      <%= pluralize(@goal.errors.count, "error") %>
+      prohibited this post from being saved:
+    </h4>
+
+    <ul>
+    <% @goal.errors.full_messages.each do |msg| %>
+      <li><%= msg %></li>
+    <% end %>
+    </ul>
+  </div>
+<% end %>
+
 <%= form_for @goal  do |f| %>
   <%= f.hidden_field :user_id %>
   Describe your goal: <%= f.text_field :description %><br />

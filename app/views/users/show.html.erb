@@ -4,16 +4,24 @@
     <div class="col-12 main">
       <h1>Welcome, <%= current_user.name %>!</h1>
 
-      <p>You've set <%= current_user.goals.count %> goals. <%= link_to "View your goals.", goals_path %></p>
 
-      <p>Your average success rate is <%= current_user.average_success_rate.round(1)%>%.
-        <% if current_user.average_success_rate >= 80 %>
-          Great work! Keep it up!
-        <% elsif current_user.average_success_rate >= 50 %>
-          Not bad! Keep it up!
-        <% else %>
-          Keep working! It's never too late to improve!
+      <% if !current_user.goals.blank? %>
+        <p>You've set <%= current_user.goals.count %> goal<%= "s" if current_user.goals.count > 1 %>. <%= link_to "View your goals.", goals_path %></p>
+      <% else %>
+        <p>You haven't set any goals yet! <%= link_to "Create a new goal here.", new_goal_path %></p>
+      <% end %>
+
+
+      <% if !current_user.results.blank? %>
+        <p>Your average success rate is <%= current_user.average_success_rate.round(1)%>%.
+          <% if current_user.average_success_rate >= 80 %>
+            Great work! Keep it up!
+          <% elsif current_user.average_success_rate >= 50 %>
+            Not bad! Keep it up!
+          <% else %>
+            Keep working! It's never too late to improve!
+          <% end %>
+        </p>
         <% end %>
-      </p>
     </div>
   </div>
