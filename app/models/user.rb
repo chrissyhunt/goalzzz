@@ -3,7 +3,7 @@ class User < ApplicationRecord
   has_many :goals
   has_many :results, through: :goals
   has_many :reflections, through: :results
-  validates :name, presence: true
+  validates :name, :email, presence: true
   validates :email, uniqueness: true
 
   def average_success_rate
