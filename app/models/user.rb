@@ -5,4 +5,15 @@ class User < ApplicationRecord
   has_many :reflections, through: :results
   validates :name, presence: true
   validates :email, uniqueness: true
+
+  def average
+    inject(&:+) / size
+  end
+
+  def average_success_rate
+    success_rates = self.goals.collect do |goal|
+      goal.success_rate
+    end
+    success_rates.average
+  end
 end

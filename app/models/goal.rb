@@ -20,13 +20,13 @@ class Goal < ApplicationRecord
   end
 
   def percent_complete
-    days_counted = (DateTime.now - self.start_date).to_i
+    days_counted = (Date.tomorrow - self.start_date).to_i
     total_days = (self.end_date - self.start_date).to_i
     (days_counted.to_f/total_days.to_f)*100
   end
 
   def success_rate
-    days_counted = (DateTime.now - self.start_date).to_i
+    days_counted = (Date.tomorrow - self.start_date).to_i
     successful_days = self.successes.count
     (successful_days.to_f/days_counted.to_f)*100
   end

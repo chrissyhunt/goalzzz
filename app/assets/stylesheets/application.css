@@ -20,7 +20,6 @@ body {
 
 div.container {
   width: 80%;
-  border: 1px solid #000000;
 }
 
 div.login {
@@ -51,6 +50,10 @@ div.left-col {
 
 div.notes-col {
   text-align: left;
+}
+
+div.table-row {
+  border-bottom: 1px solid #EEE;
 }
 
 li.nav-item {

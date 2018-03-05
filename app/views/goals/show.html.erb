@@ -5,12 +5,12 @@
 
     <h1><%= @goal.description %></h1>
 
-    <p>You're (percent) done, with a (percent) success rate so far!</p>
+    <p>You're <%= @goal.percent_complete.round(1) %>% done, with a <%= @goal.success_rate.round(1) %>% success rate so far!</p>
     <p><%= link_to "Update your results", new_goal_result_path(@goal) %></p>
 
 
     <div class="row">
-      <div class="col-2 table-header">
+      <div class="col-3 table-header">
         <strong>Date:</strong>
       </div>
 
@@ -18,15 +18,21 @@
         <strong>Result:</strong>
       </div>
 
-      <div class="col-8 table-header">
+      <div class="col-7 table-header">
         <strong>Notes:</strong>
       </div>
     </div>
 
     <% generate_date_range(@goal.start_date, @goal.end_date, @goal.interval).each do |date| %>
-      <div class="row">
-        <div class="col-2 left-col">
-          <%= "#{date}" %>
+      <div class="row table-row">
+        <div class="col-3 left-col">
+          <% if @goal.interval == "monthly" %>
+            <%= date.strftime("%B") %>
+          <% elsif @goal.interval == "weekly" %>
+            <%= date.strftime("Week of %a, %b %-d") %>
+          <% else %>
+            <%= date.strftime("%-d %B %Y") %>
+          <% end %>
         </div>
         <div class="col-2 left-col">
           <% if @goal.result_by_date(date) %>
@@ -35,7 +41,7 @@
             -
           <% end %>
         </div>
-        <div class="col-8 notes-col">
+        <div class="col-7 notes-col">
           <% if @goal.reflection_by_date(date) %>
             <%= "#{@goal.reflection_by_date(date).content}" %>
           <% end %>
