@@ -13,6 +13,9 @@ class ApplicationController < ActionController::Base
   end
 
   def require_login
-    return head(:forbidden) unless session.include? :user_id
+    unless logged_in?
+      flash[:error] = "You must be logged in to access these pages."
+      redirect_to root_path
+    end
   end
 end

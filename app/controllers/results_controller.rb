@@ -1,4 +1,5 @@
 class ResultsController < ApplicationController
+  before_action :require_login
 
   def new
     @result = Result.new
@@ -11,7 +12,7 @@ class ResultsController < ApplicationController
     if @result.save
       @reflection = Reflection.new(reflection_params)
       @reflection.result_id = @result.id
-      
+
       if @reflection.save
         redirect_to goal_path(Goal.find_by(id: params[:goal_id]))
       else
