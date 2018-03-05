@@ -3,8 +3,14 @@
 <div class="row">
   <div class="col-12 main">
 
-  <h1>Edit Result</h1>
+  <h1><%= @goal.description %></h1>
+  <h2>Edit This Result</h2>
 
+  <%= render 'form' %>
+
+  <%= form_tag goal_result_path(@goal, @result), method: "delete" do %>
+    <%= submit_tag "Delete This Result" %>
+  <% end %>
 
   </div>
 </div>

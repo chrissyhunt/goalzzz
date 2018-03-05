@@ -4,4 +4,5 @@ class Result < ApplicationRecord
   accepts_nested_attributes_for :reflection
   enum status: [ :success, :failure ]
   validates :date, :status, :goal_id, presence: true
+  validates :date, uniqueness: { scope: :goal_id, message: "result already exists for this goal" }
 end

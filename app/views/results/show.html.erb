@@ -1,0 +1,16 @@
+<%= render 'users/header' %>
+
+<div class="row">
+  <div class="col-12 main">
+
+    <h1><%= @goal.description %></h1>
+    <h3> Result for <%= @result.date.strftime("%_m/%d/%Y") %>: <%= @result.status.upcase %></h3>
+
+    <% if @result.reflection %>
+      <p class="button"><%= @result.reflection.content %></p>
+    <% end %>
+
+    <p class="button"><%= link_to "Edit This Result", edit_goal_result_path(@goal, @result) %></p>
+
+  </div>
+</div>

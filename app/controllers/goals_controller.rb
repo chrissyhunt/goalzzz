@@ -6,6 +6,7 @@ class GoalsController < ApplicationController
 
   def show
     @goal = Goal.find_by(id: params[:id])
+    @goal_reflections = @goal.reflections.sort_by { |refl| refl.result.date }
 
     if @goal.user != current_user
       redirect_to goals_path

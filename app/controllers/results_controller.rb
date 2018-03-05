@@ -35,10 +35,57 @@ class ResultsController < ApplicationController
     end
   end
 
+  def show
+    @goal = Goal.find_by(id: params[:goal_id])
+    @result = Result.find_by(id: params[:id])
+
+    if @goal.user != current_user
+      redirect_to goals_path
+    else
+      render :show
+    end
+  end
+
   def edit
+    @goal = Goal.find_by(id: params[:goal_id])
+    @result = Result.find_by(id: params[:id])
+
+    if @goal.user != current_user
+      redirect_to goals_path
+    else
+      render :edit
+    end
   end
 
   def update
+    @goal = Goal.find_by(id: params[:goal_id])
+    @result = Result.find_by(id: params[:id])
+
+    if @goal.user != current_user
+      redirect_to goals_path
+    else
+      @result.update(result_params)
+      @reflection = Reflection.find_or_create_by(result_id: @result.id)
+      @reflection.update(reflection_params)
+
+      if @result.save && @reflection.save
+        redirect_to goal_path(@goal)
+      else
+        render :edit
+      end
+    end
+  end
+
+  def destroy
+    @goal = Goal.find_by(id: params[:goal_id])
+    @result = Result.find_by(id: params[:id])
+
+    if @goal.user != current_user
+      redirect_to goals_path
+    else
+      @result.delete
+      redirect_to goal_path(@goal)
+    end
   end
 
   private

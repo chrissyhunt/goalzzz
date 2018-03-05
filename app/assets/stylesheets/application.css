@@ -18,6 +18,15 @@ body {
   font-family: Courier;
 }
 
+a {
+  color: #000;
+}
+
+a:hover {
+  color: #000;
+  text-decoration: underline;
+}
+
 div.container {
   width: 80%;
 }
@@ -35,17 +44,59 @@ div.main {
   padding: 10% 0;
 }
 
+div.main p {
+  padding: 1%;
+}
+
+p.button {
+  padding: 5%;
+}
+
+div.secondary {
+  text-align: center;
+  padding: 0 0 10% 0;
+}
+
+div.secondary h3 {
+  padding-bottom: 5%;
+}
+
+div.blank-result {
+  width: 70px;
+  height: 70px;
+  border: 1px solid #EEE;
+  line-height: 400%;
+}
+
+div.green-result {
+  width: 70px;
+  height: 70px;
+  background-color: #01FF70;
+  line-height: 400%;
+}
+
+div.red-result {
+  width: 70px;
+  height: 70px;
+  background-color: #FF4136;
+  line-height: 400%;
+}
+
 div.table-header {
   background-color: #000;
   color: #FFF;
 }
 
-div.left-col {
-  border-right: 1px solid #EEE;
-}
-
 div.notes-col {
   text-align: left;
+  border-left: 2px solid #FF4136;
+  padding-left: 20px;
+}
+
+div.notes-col-success {
+  text-align: left;
+  border-left: 2px solid #01FF70;
+  padding-left: 20px;
 }
 
 div.table-row {

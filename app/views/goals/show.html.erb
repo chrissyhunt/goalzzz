@@ -8,48 +8,50 @@
     <p>You're <%= @goal.percent_complete.round(1) %>% done, with a <%= @goal.success_rate.round(1) %>% success rate so far!</p>
     <p><%= link_to "Update your results", new_goal_result_path(@goal) %></p>
 
-
     <div class="row">
-      <div class="col-3 table-header">
-        <strong>Date:</strong>
-      </div>
-
-      <div class="col-2 table-header">
-        <strong>Result:</strong>
-      </div>
-
-      <div class="col-7 table-header">
-        <strong>Notes:</strong>
-      </div>
+      <% generate_date_range(@goal.start_date, @goal.end_date, @goal.interval).each do |date| %>
+          <% if !@goal.result_by_date(date) %>
+            <div class="col-1 blank-result">
+              <strong><%= date.strftime("%_m/%d") %></strong>
+            </div>
+          <% elsif @goal.result_by_date(date) && @goal.result_by_date(date).status == "success" %>
+            <div class="col-1 green-result">
+              <strong><%= link_to "#{date.strftime("%_m/%d")}", goal_result_path(@goal, @goal.result_by_date(date)) %></strong><br />
+            </div>
+          <% else %>
+            <div class="col-1 red-result">
+              <strong><%= link_to "#{date.strftime("%_m/%d")}", goal_result_path(@goal, @goal.result_by_date(date)) %></strong><br />
+            </div>
+          <% end %>
+      <% end %>
     </div>
+  </div>
+</div>
 
-    <% generate_date_range(@goal.start_date, @goal.end_date, @goal.interval).each do |date| %>
-      <div class="row table-row">
-        <div class="col-3 left-col">
-          <% if @goal.interval == "monthly" %>
-            <%= date.strftime("%B") %>
-          <% elsif @goal.interval == "weekly" %>
-            <%= date.strftime("Week of %a, %b %-d") %>
-          <% else %>
-            <%= date.strftime("%-d %B %Y") %>
-          <% end %>
-        </div>
-        <div class="col-2 left-col">
-          <% if @goal.result_by_date(date) %>
-            <%= "#{@goal.result_by_date(date).status}" %>
-          <% else %>
-            -
-          <% end %>
-        </div>
-        <div class="col-7 notes-col">
-          <% if @goal.reflection_by_date(date) %>
-            <%= "#{@goal.reflection_by_date(date).content}" %>
-          <% end %>
+<div class="row">
+  <div class="col-12 secondary">
+    <h3>Your Thoughts So Far</h3>
+    <% @goal_reflections.each do |refl| %>
+      <div class="row">
+        <div class="col-2">
+          <%= refl.result.date.strftime("%_m/%d/%Y") %>
         </div>
 
+        <div class="col-10 notes-col<%= "-success" if refl.result.status == "success" %>">
+          <%= refl.content %>
+        </div>
       </div>
     <% end %>
 
-    <p><%= link_to "Edit this goal.", edit_goal_path(@goal) %></p>
+    <p class="button"><%= link_to "Edit this goal", edit_goal_path(@goal) %></p>
+  </div>
+</div>
+
+
+
+
+
+
+
   </div>
 </div>
