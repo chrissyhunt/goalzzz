@@ -6,14 +6,10 @@ class User < ApplicationRecord
   validates :name, presence: true
   validates :email, uniqueness: true
 
-  def average
-    inject(&:+) / size
-  end
-
   def average_success_rate
     success_rates = self.goals.collect do |goal|
       goal.success_rate
     end
-    success_rates.average
+    success_rates.inject(:+) / success_rates.size
   end
 end

@@ -6,6 +6,6 @@
 
       <p>You've set <%= current_user.goals.count %> goals. <%= link_to "View your goals.", goals_path %></p>
 
-      <p>Your average success rate is 65%. Not bad!</p>
+      <p>Your average success rate is <%= current_user.average_success_rate.round(1)%>%. Not bad!</p>
     </div>
   </div>
