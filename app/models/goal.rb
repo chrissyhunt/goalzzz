@@ -20,42 +20,55 @@ class Goal < ApplicationRecord
   end
 
   def percent_complete
-    days_counted = (Date.tomorrow - self.start_date).to_i
-    total_days = (self.end_date - self.start_date).to_i
+    days_counted = (Date.today - self.start_date + 1).to_i
+    total_days = (self.end_date - self.start_date + 1).to_i
     (days_counted.to_f/total_days.to_f)*100
   end
 
   def success_rate
-    days_counted = (Date.tomorrow - self.start_date).to_i
+    days_counted = (Date.today - self.start_date + 1).to_i
     successful_days = self.successes.count
     (successful_days.to_f/days_counted.to_f)*100
   end
 
-  1/31, 1/30, 1/28
-
   def current_success_streak
-    reversed_results_by_date = self.results.sort_by { |result| result.date }.reverse
-    current_streak = 0
     last_date = nil
+    successes_by_date = self.success.sort_by { |result| result.date }.reverse
 
-    reversed_results_by_date.each do |result|
-      if result.status == "success"
-        if last_date == nil || last_date == (result.date + 1)
-          current_streak += 1
-          last_date = result.date
-        end
-      else
+    successes_by_date.each_with_index do |result, index|
+      if last_date && last_date != result.date + 1
+        current_streak = index
         break
       end
+      last_date = result.date
+    end
 
     current_streak
   end
 
-  def update_longest_streak
-    if self.current_success_streak > self.longest_streak
-      self.longest_streak = self.current_success_streak
-      self.save
-    end
-  end
+  # def current_success_streak
+  #   reversed_results_by_date = self.results.sort_by { |result| result.date }.reverse
+  #   current_streak = 0
+  #   last_date = nil
+  #
+  #   reversed_results_by_date.each do |result|
+  #     if result.status == "success"
+  #       if last_date == nil || last_date == (result.date + 1)
+  #         current_streak += 1
+  #         last_date = result.date
+  #       end #close 2nd conditional
+  #     else
+  #       break
+  #     end #close 1st conditional
+  #   end #close loop
+  #   current_streak
+  # end #close method
+  #
+  # def update_longest_streak
+  #   if self.current_success_streak > self.longest_streak
+  #     self.longest_streak = self.current_success_streak
+  #     self.save
+  #   end
+  # end
 
 end

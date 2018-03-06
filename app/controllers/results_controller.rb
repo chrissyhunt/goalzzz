@@ -25,7 +25,7 @@ class ResultsController < ApplicationController
         @reflection.result_id = @result.id
 
         if @reflection.save
-          redirect_to goal_path(Goal.find_by(id: params[:goal_id]))
+          redirect_to goal_path(@goal)
         else
           render :new
         end
