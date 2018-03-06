@@ -5,11 +5,40 @@
 
     <h1><%= current_user.name %>'s Goals</h1>
 
-    <p>
-      <% current_user.goals.each do |goal| %>
-        <%= link_to "#{goal.description}", goal_path(goal) %><br />
-      <% end %>
-    </p>
+    <div class="row">
+      <div class="col-4">
+        <h4>High Priority</h4>
+        <% current_user.goals.where(priority: 'high').each do |goal| %>
+          <%= link_to "#{goal.description}", goal_path(goal) %><br /><span class="end-date"><%= goal.end_date.strftime("through %_m/%-d/%Y").upcase %></span><br />
+        <% end %>
+
+        <% if current_user.goals.where(priority: 'high').blank? %>
+          (None.)
+        <% end %>
+      </div>
+
+      <div class="col-4">
+        <h4>Medium Priority</h4>
+        <% current_user.goals.where(priority: 'medium').each do |goal| %>
+          <%= link_to "#{goal.description}", goal_path(goal) %><br /><span class="end-date"><%= goal.end_date.strftime("through %_m/%-d/%Y").upcase %></span><br />
+        <% end %>
+
+        <% if current_user.goals.where(priority: 'medium').blank? %>
+          (None.)
+        <% end %>
+      </div>
+
+      <div class="col-4">
+        <h4>Low Priority</h4>
+        <% current_user.goals.where(priority: 'low').each do |goal| %>
+          <%= link_to "#{goal.description}", goal_path(goal) %><br /><span class="end-date"><%= goal.end_date.strftime("through %_m/%-d/%Y").upcase %></span><br />
+        <% end %>
+
+        <% if current_user.goals.where(priority: 'low').blank? %>
+          (None.)
+        <% end %>
+      </div>
+    </div>
 
     <p><%= link_to "Set a new goal", new_goal_path %></p>
 

@@ -31,4 +31,31 @@ class Goal < ApplicationRecord
     (successful_days.to_f/days_counted.to_f)*100
   end
 
+  1/31, 1/30, 1/28
+
+  def current_success_streak
+    reversed_results_by_date = self.results.sort_by { |result| result.date }.reverse
+    current_streak = 0
+    last_date = nil
+
+    reversed_results_by_date.each do |result|
+      if result.status == "success"
+        if last_date == nil || last_date == (result.date + 1)
+          current_streak += 1
+          last_date = result.date
+        end
+      else
+        break
+      end
+
+    current_streak
+  end
+
+  def update_longest_streak
+    if self.current_success_streak > self.longest_streak
+      self.longest_streak = self.current_success_streak
+      self.save
+    end
+  end
+
 end

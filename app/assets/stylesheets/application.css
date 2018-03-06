@@ -18,6 +18,17 @@ body {
   font-family: Courier;
 }
 
+h1  {
+  margin-bottom: 2%;
+}
+
+h4 {
+  font-family: 'Avenir Next', avenir;
+  font-weight: 400;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+}
+
 a {
   color: #000;
 }
@@ -42,6 +53,10 @@ div.login {
 div.main {
   text-align: center;
   padding: 10% 0;
+}
+
+div.main h1, div.main h3 {
+  padding-bottom: 20px;
 }
 
 div.main p {
@@ -91,12 +106,14 @@ div.notes-col {
   text-align: left;
   border-left: 2px solid #FF4136;
   padding-left: 20px;
+  padding-bottom: 10px;
 }
 
 div.notes-col-success {
   text-align: left;
   border-left: 2px solid #01FF70;
   padding-left: 20px;
+  padding-bottom: 10px;
 }
 
 div.table-row {
@@ -105,4 +122,19 @@ div.table-row {
 
 li.nav-item {
   padding: 10px 20px;
+}
+
+span.priority {
+  font-size: 0.8em;
+  font-family: 'Avenir Next', avenir;
+  background-color : #7FDBFF;
+  padding: 2px 4px;
+}
+
+span.end-date {
+  color :#AAA;
+  font-size: 0.8em;
+  font-family: 'Avenir Next', avenir;
+  position: relative;
+  top: -5px;
 }
