@@ -10,7 +10,23 @@ class Goal < ApplicationRecord
   validates :description, :start_date, :end_date, :interval, :user_id, presence: true
 
   def result_by_date(date)
-    self.results.find_by(date: date)
+    if self.interval == "daily"
+      self.results.find_by(date: date)
+    elsif self.interval == "weekly"
+      ### return first result for week of date
+      date = date.to_date
+      range = (date..date+6).to_a
+      results = range.collect { |date| self.results.find_by(date: date) }
+      results = results - [nil]
+      results.first
+    else
+      ### return first result for month of date
+      date = date.to_date
+      range = (date..date.next_month-1).to_a
+      results = range.collect { |date| self.results.find_by(date: date) }
+      results = results - [nil]
+      results.first
+    end
   end
 
   def reflection_by_date(date)

@@ -3,24 +3,50 @@
 <div class="row">
   <div class="col-12 main">
 
+    <!-- GOAL SUMMARY INFO -->
     <h1><%= @goal.description %></h1>
 
     <p>You're <%= @goal.percent_complete.round(1) %>% done, with a <%= @goal.success_rate.round(1) %>% success rate so far!</p>
     <p><%= link_to "Update your results", new_goal_result_path(@goal) %></p>
 
+
+    <!-- GOAL RESULTS DISPLAY -->
+    <% if @goal.interval == "weekly" %>
+      <h5>Results by Week</h5>
+    <% elsif @goal.interval == "monthly" %>
+      <h5>Results by Month</h5>
+    <% end %>
+
     <div class="row">
+
+      <!-- GENERATES ALL DATES IN RANGE FOR RESULTS DISPLAY -->
       <% generate_date_range(@goal.start_date, @goal.end_date, @goal.interval).each do |date| %>
+          <!-- NO RESULT -->
           <% if !@goal.result_by_date(date) %>
             <div class="col-1 blank-result">
-              <strong><%= date.strftime("%_m/%d") %></strong>
+              <% if @goal.interval == "monthly" %>
+                <strong><%= date.strftime("%b") %></strong>
+              <% else %>
+                <strong><%= date.strftime("%_m/%d") %></strong>
+              <% end %>
             </div>
+          <!-- RESULT: SUCCESS -->
           <% elsif @goal.result_by_date(date) && @goal.result_by_date(date).status == "success" %>
             <div class="col-1 green-result">
-              <strong><%= link_to "#{date.strftime("%_m/%d")}", goal_result_path(@goal, @goal.result_by_date(date)) %></strong><br />
+              <% if @goal.interval == "monthly" %>
+                <strong><%= link_to "#{date.strftime("%b")}", goal_result_path(@goal, @goal.result_by_date(date)) %></strong><br />
+              <% else %>
+                <strong><%= link_to "#{date.strftime("%_m/%d")}", goal_result_path(@goal, @goal.result_by_date(date)) %></strong><br />
+              <% end %>
             </div>
+          <!-- RESULT: FAILURE -->
           <% else %>
             <div class="col-1 red-result">
-              <strong><%= link_to "#{date.strftime("%_m/%d")}", goal_result_path(@goal, @goal.result_by_date(date)) %></strong><br />
+              <% if @goal.interval == "monthly" %>
+                <strong><%= link_to "#{date.strftime("%b")}", goal_result_path(@goal, @goal.result_by_date(date)) %></strong><br />
+              <% else %>
+                <strong><%= link_to "#{date.strftime("%_m/%d")}", goal_result_path(@goal, @goal.result_by_date(date)) %></strong><br />
+              <% end %>
             </div>
           <% end %>
       <% end %>
