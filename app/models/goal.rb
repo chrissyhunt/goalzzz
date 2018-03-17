@@ -48,43 +48,20 @@ class Goal < ApplicationRecord
   end
 
   def current_success_streak
-    last_date = nil
-    successes_by_date = self.success.sort_by { |result| result.date }.reverse
+    all_successes = self.successes.sort_by {|result| result.date }.reverse
+    current_streak = 0
 
-    successes_by_date.each_with_index do |result, index|
-      if last_date && last_date != result.date + 1
-        current_streak = index
+    all_successes.each_with_index do | result, index |
+      if result == all_successes.first
+        current_streak = 1
+      elsif result.date == all_successes[index-1].date-1
+        current_streak += 1
+      else
         break
       end
-      last_date = result.date
     end
 
     current_streak
   end
-
-  # def current_success_streak
-  #   reversed_results_by_date = self.results.sort_by { |result| result.date }.reverse
-  #   current_streak = 0
-  #   last_date = nil
-  #
-  #   reversed_results_by_date.each do |result|
-  #     if result.status == "success"
-  #       if last_date == nil || last_date == (result.date + 1)
-  #         current_streak += 1
-  #         last_date = result.date
-  #       end #close 2nd conditional
-  #     else
-  #       break
-  #     end #close 1st conditional
-  #   end #close loop
-  #   current_streak
-  # end #close method
-  #
-  # def update_longest_streak
-  #   if self.current_success_streak > self.longest_streak
-  #     self.longest_streak = self.current_success_streak
-  #     self.save
-  #   end
-  # end
 
 end
