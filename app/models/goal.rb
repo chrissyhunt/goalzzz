@@ -134,13 +134,12 @@ class Goal < ApplicationRecord
         else
           current_streak = 0
         end
-        # [3/7, 3/13, 3/22, 3/28]
 
       ### Daily goals
       else
         # first result in all_successes
-        if result == all_successes.first
-          current_streak = 1
+        if current_streak == 0
+          current_streak += 1
 
         # current date is one day after previous result's date => streak!
         elsif result.date == all_successes[index-1].date+1
@@ -155,14 +154,7 @@ class Goal < ApplicationRecord
         end
       end
     end
-
-    # Update db if current_longest_streak is longer
-    if self.longest_streak.nil? || current_longest_streak > self.longest_streak
-      self.longest_streak = current_longest_streak
-      self.save
-    end
-
-    self.longest_streak
+    current_longest_streak
   end
 
 end
