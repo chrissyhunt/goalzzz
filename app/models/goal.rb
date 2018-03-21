@@ -13,19 +13,21 @@ class Goal < ApplicationRecord
     if self.interval == "daily"
       self.results.find_by(date: date)
     elsif self.interval == "weekly"
-      ### return first result for week of date
+      ### return first success, or first result for week of date
       date = date.to_date
       range = (date..date+6).to_a
       results = range.collect { |date| self.results.find_by(date: date) }
       results = results - [nil]
-      results.first
+      first_success = results.find { |r| r.status == "success" }
+      !!first_success ? first_success : results.first
     else
-      ### return first result for month of date
+      ### return first success, or first result for month of date
       date = date.to_date
       range = (date..date.next_month-1).to_a
       results = range.collect { |date| self.results.find_by(date: date) }
       results = results - [nil]
-      results.first
+      first_success = results.find { |r| r.status == "success" }
+      !!first_success ? first_success : results.first
     end
   end
 
