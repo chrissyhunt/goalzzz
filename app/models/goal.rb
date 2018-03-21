@@ -54,22 +54,79 @@ class Goal < ApplicationRecord
     current_streak = 0
 
     all_successes.each_with_index do | result, index |
-      if result == all_successes.first
-        current_streak = 1
-      elsif result.date == all_successes[index-1].date-1
-        current_streak += 1
+
+      # Monthly goals
+      if self.interval == "monthly"
+        last_month = all_successes.first.date.month
+        date_marker = self.start_date.day
+
+        if result == all_successes.first
+          current_streak = 1
+        elsif result.date.month == last_month-1 && result.date.day >= date_marker
+          current_streak += 1
+          last_month = result.date.month
+        elsif result.date.month == last_month
+          next
+        else
+          break
+        end
+
+      # Weekly goals
+      elsif self.interval == "weekly"
+        if result == all_successes.first
+          current_streak = 1
+        elsif result.date >= all_successes[index-1].date-7
+          current_streak += 1
+        else
+          break
+        end
+
+      # Daily goals
       else
-        break
+        if result == all_successes.first
+          current_streak = 1
+        elsif result.date == all_successes[index-1].date-1
+          current_streak += 1
+        else
+          break
+        end
       end
     end
 
-    # Update longest_streak in db if this streak is longer
-    if self.longest_streak.nil? || current_streak > self.longest_streak
-      self.longest_streak = current_streak
+    current_streak
+  end
+
+  # Working for daily goals -- weekly, monthly?
+  def find_and_update_longest_streak
+    all_successes = self.successes.sort_by {|result| result.date }
+    current_longest_streak = 0
+    current_streak = 0
+
+    all_successes.each_with_index do |result, index|
+      # first result in all_successes
+      if result == all_successes.first
+        current_streak = 1
+
+      # current date is one day after previous result's date => streak!
+      elsif result.date == all_successes[index-1].date+1
+        current_streak += 1
+        if current_streak > current_longest_streak
+          current_longest_streak = current_streak
+        end
+
+      # current date breaks the streak => reset to continue
+      else
+        current_streak = 0
+      end
+    end
+
+    # Update db if current_longest_streak is longer
+    if current_longest_streak > self.longest_streak
+      self.longest_streak = current_longest_streak
       self.save
     end
 
-    current_streak
+    self.longest_streak
   end
 
 end
