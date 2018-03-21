@@ -7,6 +7,18 @@
     <h1><%= @goal.description %></h1>
 
     <p>You're <%= @goal.percent_complete.round(1) %>% done, with a <%= @goal.success_rate.round(1) %>% success rate so far!</p>
+
+    <% if @goal.interval == "monthly" %>
+      <p>Your current success streak is <%= @goal.current_success_streak %> month<%= "s" if @goal.current_success_streak > 1 %>!
+      Your longest success streak is <%= @goal.longest_streak %> month<%= "s" if @goal.longest_streak > 1 %>.</p>
+    <% elsif @goal.interval == "weekly" %>
+      <p>Your current success streak is <%= @goal.current_success_streak %> week<%= "s" if @goal.current_success_streak > 1 %>!
+      Your longest success streak is <%= @goal.longest_streak %> week<%= "s" if @goal.longest_streak > 1 %>.</p>
+    <% else %>
+      <p>Your current success streak is <%= @goal.current_success_streak %> day<%= "s" if @goal.current_success_streak > 1 %>!
+      Your longest success streak is <%= @goal.longest_streak %> day<%= "s" if @goal.longest_streak > 1 %>.</p>
+    <% end %>
+
     <p><%= link_to "Update your results", new_goal_result_path(@goal) %></p>
 
 

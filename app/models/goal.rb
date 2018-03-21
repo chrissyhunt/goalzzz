@@ -63,6 +63,12 @@ class Goal < ApplicationRecord
       end
     end
 
+    # Update longest_streak in db if this streak is longer
+    if self.longest_streak.nil? || current_streak > self.longest_streak
+      self.longest_streak = current_streak
+      self.save
+    end
+
     current_streak
   end
 
