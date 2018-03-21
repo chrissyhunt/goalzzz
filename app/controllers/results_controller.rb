@@ -23,7 +23,7 @@ class ResultsController < ApplicationController
       if @result.save
         @reflection = Reflection.new(reflection_params)
         @reflection.result_id = @result.id
-
+        
         if @reflection.save
           redirect_to goal_path(@goal)
         else
