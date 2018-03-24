@@ -1,48 +1,47 @@
-<%= render 'users/header' %>
-
 <div class="row">
   <div class="col-12 main">
 
-    <h1><%= current_user.name %>'s Goals</h1>
+    <h1><%= current_user.name %>'s Completed Goals</h1>
 
     <div class="row">
       <div class="col-4">
         <h4>High Priority</h4>
-        <% current_user.goals.where(priority: 'high').each do |goal| %>
+        <% @goals.select { |g| g.priority == "high" }.each do |goal| %>
           <%= link_to "#{goal.description}", goal_path(goal) %><br /><span class="end-date"><%= goal.interval.upcase %> &nbsp;&middot;&nbsp;  <%= goal.end_date.strftime("through %_m/%-d/%Y").upcase %></span><br />
         <% end %>
 
-        <% if current_user.goals.where(priority: 'high').blank? %>
+        <% if @goals.select { |g| g.priority == "high" }.blank? %>
           (None.)
         <% end %>
       </div>
 
       <div class="col-4">
         <h4>Medium Priority</h4>
-        <% current_user.goals.where(priority: 'medium').each do |goal| %>
+        <% @goals.select { |g| g.priority == "medium" }.each do |goal| %>
           <%= link_to "#{goal.description}", goal_path(goal) %><br /><span class="end-date"><%= goal.interval.upcase %> &nbsp;&middot;&nbsp;  <%= goal.end_date.strftime("through %_m/%-d/%Y").upcase %></span><br />
         <% end %>
 
-        <% if current_user.goals.where(priority: 'medium').blank? %>
+        <% if @goals.select { |g| g.priority == "medium" }.blank? %>
           (None.)
         <% end %>
       </div>
 
       <div class="col-4">
         <h4>Low Priority</h4>
-        <% current_user.goals.where(priority: 'low').each do |goal| %>
+        <% @goals.select { |g| g.priority == "low" }.each do |goal| %>
           <%= link_to "#{goal.description}", goal_path(goal) %><br /><span class="end-date"><%= goal.interval.upcase %> &nbsp;&middot;&nbsp;  <%= goal.end_date.strftime("through %_m/%-d/%Y").upcase %></span><br />
         <% end %>
 
-        <% if current_user.goals.where(priority: 'low').blank? %>
+        <% if @goals.select { |g| g.priority == "low" }.blank? %>
           (None.)
         <% end %>
       </div>
     </div>
 
     <p></p>
-    <p><%= link_to "View all completed goals", goals_completed_path %></p>
+    <p><%= link_to "Return to all goals", goals_path %></p>
     <p><%= link_to "Set a new goal", new_goal_path %></p>
+
 
   </div>
 </div>

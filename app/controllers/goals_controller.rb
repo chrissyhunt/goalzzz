@@ -4,6 +4,10 @@ class GoalsController < ApplicationController
   def index
   end
 
+  def completed
+    @goals = Goal.completed.select { |g| g.user_id == current_user.id }
+  end
+
   def show
     @goal = Goal.find_by(id: params[:id])
     @goal_reflections = @goal.reflections.sort_by { |refl| refl.result.date }

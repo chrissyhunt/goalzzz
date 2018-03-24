@@ -9,6 +9,18 @@ class Goal < ApplicationRecord
   enum priority: [ :high, :medium, :low ]
   validates :description, :start_date, :end_date, :interval, :user_id, presence: true
 
+
+  def self.total_average_success_rate
+    success_rates = self.all.collect do |goal|
+      goal.success_rate
+    end
+    success_rates.inject(:+) / success_rates.size
+  end
+
+  def self.completed
+    self.all.select { |g| g.end_date <= Date.today }
+  end
+
   def result_by_date(date)
     if self.interval == "daily"
       self.results.find_by(date: date)
@@ -80,7 +92,6 @@ class Goal < ApplicationRecord
         else
           break
         end
-        # [3/28, 3/22, 3/13, 3/7]
 
       # Daily goals
       else
