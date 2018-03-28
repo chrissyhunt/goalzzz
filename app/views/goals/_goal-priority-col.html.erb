@@ -1,0 +1,10 @@
+<div class="col-4">
+  <h4><%= col_header %></h4>
+  <% goals.each do |g| %>
+    <%= link_to "#{g.description}", goal_path(g) %><br /><span class="end-date"><%= g.interval.upcase %> &nbsp;&middot;&nbsp;  <%= g.end_date.strftime("through %_m/%-d/%Y").upcase %></span><br />
+  <% end %>
+
+  <% if goals.blank? %>
+    (None.)
+  <% end %>
+</div>
