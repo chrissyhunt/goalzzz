@@ -8,7 +8,9 @@ class GoalsController < ApplicationController
   end
 
   def completed
-    @goals = Goal.completed.select { |g| g.user_id == current_user.id }
+    @high_priority_goals = Goal.completed.select { |g| g.user_id == current_user.id && g.priority == "high" }
+    @medium_priority_goals = Goal.completed.select { |g| g.user_id == current_user.id && g.priority == "medium" }
+    @low_priority_goals = Goal.completed.select { |g| g.user_id == current_user.id && g.priority == "low" }
   end
 
   def show

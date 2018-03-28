@@ -11,7 +11,7 @@
       <%= render partial: "goal-priority-col", locals: {col_header: "Low Priority", goals: @low_priority_goals} %>
     </div>
 
-    <p><%= link_to "View all completed goals", goals_completed_path %></p>
+    <p class="menu"><%= link_to "View all completed goals", goals_completed_path %></p>
     <p><%= link_to "Set a new goal", new_goal_path %></p>
 
   </div>

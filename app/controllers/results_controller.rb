@@ -20,10 +20,12 @@ class ResultsController < ApplicationController
       @result = Result.new(result_params)
       @result.goal_id = params[:goal_id]
 
-      if @result.save
+      if @result.save && reflection_params[:content].blank?
+        redirect_to goal_path(@goal)
+      elsif @result.save
         @reflection = Reflection.new(reflection_params)
         @reflection.result_id = @result.id
-        
+
         if @reflection.save
           redirect_to goal_path(@goal)
         else

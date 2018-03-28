@@ -10,7 +10,8 @@
       <p class="button"><%= @result.reflection.content %></p>
     <% end %>
 
-    <p class="button"><%= link_to "Edit This Result", edit_goal_result_path(@goal, @result) %></p>
+    <p class="menu"><%= link_to "Return to all results", goal_path(@goal) %></p>
+    <p><%= link_to "Edit This Result", edit_goal_result_path(@goal, @result) %></p>
 
   </div>
 </div>

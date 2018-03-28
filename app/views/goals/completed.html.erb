@@ -4,42 +4,12 @@
     <h1><%= current_user.name %>'s Completed Goals</h1>
 
     <div class="row">
-      <div class="col-4">
-        <h4>High Priority</h4>
-        <% @goals.select { |g| g.priority == "high" }.each do |goal| %>
-          <%= link_to "#{goal.description}", goal_path(goal) %><br /><span class="end-date"><%= goal.interval.upcase %> &nbsp;&middot;&nbsp;  <%= goal.end_date.strftime("through %_m/%-d/%Y").upcase %></span><br />
-        <% end %>
-
-        <% if @goals.select { |g| g.priority == "high" }.blank? %>
-          (None.)
-        <% end %>
-      </div>
-
-      <div class="col-4">
-        <h4>Medium Priority</h4>
-        <% @goals.select { |g| g.priority == "medium" }.each do |goal| %>
-          <%= link_to "#{goal.description}", goal_path(goal) %><br /><span class="end-date"><%= goal.interval.upcase %> &nbsp;&middot;&nbsp;  <%= goal.end_date.strftime("through %_m/%-d/%Y").upcase %></span><br />
-        <% end %>
-
-        <% if @goals.select { |g| g.priority == "medium" }.blank? %>
-          (None.)
-        <% end %>
-      </div>
-
-      <div class="col-4">
-        <h4>Low Priority</h4>
-        <% @goals.select { |g| g.priority == "low" }.each do |goal| %>
-          <%= link_to "#{goal.description}", goal_path(goal) %><br /><span class="end-date"><%= goal.interval.upcase %> &nbsp;&middot;&nbsp;  <%= goal.end_date.strftime("through %_m/%-d/%Y").upcase %></span><br />
-        <% end %>
-
-        <% if @goals.select { |g| g.priority == "low" }.blank? %>
-          (None.)
-        <% end %>
-      </div>
+      <%= render partial: "goal-priority-col", locals: {col_header: "High Priority", goals: @high_priority_goals} %>
+      <%= render partial: "goal-priority-col", locals: {col_header: "Medium Priority", goals: @medium_priority_goals} %>
+      <%= render partial: "goal-priority-col", locals: {col_header: "Low Priority", goals: @low_priority_goals} %>
     </div>
 
-    <p></p>
-    <p><%= link_to "Return to all goals", goals_path %></p>
+    <p class="menu"><%= link_to "Return to all goals", goals_path %></p>
     <p><%= link_to "Set a new goal", new_goal_path %></p>
 
 

@@ -6,7 +6,11 @@
     <!-- GOAL SUMMARY INFO -->
     <h1><%= @goal.description %></h1>
 
-    <p>You're <%= @goal.percent_complete.round(1) %>% done, with a <%= @goal.success_rate.round(1) %>% success rate so far!</p>
+    <% if @goal.percent_complete >= 100 %>
+      <p>This goal is complete! Your success rate was <%= @goal.success_rate.round(1) %>%.</p>
+    <% else %>
+      <p>You're <%= @goal.percent_complete.round(1) %>% done, with a <%= @goal.success_rate.round(1) %>% success rate so far!</p>
+    <% end %>
 
     <% if @goal.interval == "monthly" %>
       <p>Your current success streak is <%= @goal.current_success_streak %> month<%= "s" if @goal.current_success_streak > 1 %>!
@@ -73,7 +77,8 @@
       </div>
     <% end %>
 
-    <p class="button"><%= link_to "Edit this goal", edit_goal_path(@goal) %></p>
+    <p class="menu"><%= link_to "Return to all goals", goals_path %></p>
+    <p><%= link_to "Edit this goal", edit_goal_path(@goal) %></p>
   </div>
 </div>
 
