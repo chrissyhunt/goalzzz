@@ -67,13 +67,17 @@ class ResultsController < ApplicationController
       redirect_to goals_path
     else
       @result.update(result_params)
-      @reflection = Reflection.find_or_create_by(result_id: @result.id)
-      @reflection.update(reflection_params)
-
-      if @result.save && @reflection.save
+      if @result.save && reflection_params[:content].blank?
         redirect_to goal_path(@goal)
       else
-        render :edit
+        @reflection = Reflection.find_or_create_by(result_id: @result.id)
+        @reflection.update(reflection_params)
+
+        if @result.save && @reflection.save
+          redirect_to goal_path(@goal)
+        else
+          render :edit
+        end
       end
     end
   end
