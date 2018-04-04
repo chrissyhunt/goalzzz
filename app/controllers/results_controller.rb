@@ -97,4 +97,5 @@ class ResultsController < ApplicationController
   def result_params
     params.require(:result).permit(:date, :status, :goal_id, reflections_attributes: [:content])
   end
+
 end
