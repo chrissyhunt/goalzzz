@@ -4,33 +4,29 @@ class ResultsController < ApplicationController
   def new
     @goal = Goal.find_by(id: params[:goal_id])
 
+    # Authorization check
     if @goal.user != current_user
       redirect_to goals_path
     else
       @result = Result.new
+      @result.reflections.build()
     end
   end
 
   def create
     @goal = Goal.find_by(id: params[:goal_id])
 
+    # Authorization check
     if @goal.user != current_user
       redirect_to goals_path
     else
+
+      # Build result
       @result = Result.new(result_params)
       @result.goal_id = params[:goal_id]
 
-      if @result.save && reflection_params[:content].blank?
+      if @result.save
         redirect_to goal_path(@goal)
-      elsif @result.save
-        @reflection = Reflection.new(reflection_params)
-        @reflection.result_id = @result.id
-
-        if @reflection.save
-          redirect_to goal_path(@goal)
-        else
-          render :new
-        end
       else
         render :new
       end
@@ -41,6 +37,7 @@ class ResultsController < ApplicationController
     @goal = Goal.find_by(id: params[:goal_id])
     @result = Result.find_by(id: params[:id])
 
+    # Authorization check
     if @goal.user != current_user
       redirect_to goals_path
     else
@@ -51,7 +48,11 @@ class ResultsController < ApplicationController
   def edit
     @goal = Goal.find_by(id: params[:goal_id])
     @result = Result.find_by(id: params[:id])
+    if @result.reflections.blank?
+      @result.reflections.build()
+    end
 
+    # Authorization check
     if @goal.user != current_user
       redirect_to goals_path
     else
@@ -63,21 +64,17 @@ class ResultsController < ApplicationController
     @goal = Goal.find_by(id: params[:goal_id])
     @result = Result.find_by(id: params[:id])
 
+    # Authorization check
     if @goal.user != current_user
       redirect_to goals_path
     else
       @result.update(result_params)
-      if @result.save && reflection_params[:content].blank?
+
+      # Update result
+      if @result.save
         redirect_to goal_path(@goal)
       else
-        @reflection = Reflection.find_or_create_by(result_id: @result.id)
-        @reflection.update(reflection_params)
-
-        if @result.save && @reflection.save
-          redirect_to goal_path(@goal)
-        else
-          render :edit
-        end
+        render :edit
       end
     end
   end
@@ -86,6 +83,7 @@ class ResultsController < ApplicationController
     @goal = Goal.find_by(id: params[:goal_id])
     @result = Result.find_by(id: params[:id])
 
+    # Authorization check
     if @goal.user != current_user
       redirect_to goals_path
     else
@@ -97,10 +95,6 @@ class ResultsController < ApplicationController
   private
 
   def result_params
-    params.require(:result).permit(:date, :status, :goal_id)
-  end
-
-  def reflection_params
-    params.require(:result).require(:reflections).permit(:content)
+    params.require(:result).permit(:date, :status, :goal_id, reflections_attributes: [:content])
   end
 end
