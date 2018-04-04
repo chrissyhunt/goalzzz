@@ -4,10 +4,12 @@
   <div class="col-12 main">
 
     <h1><%= @goal.description %></h1>
-    <h3> Result for <%= @result.date.strftime("%_m/%d/%Y") %>: <%= @result.status.upcase %></h3>
+    <h3> Results for <%= @result.date.strftime("%_m/%d/%Y") %>: <%= @result.status.upcase %></h3>
 
-    <% if @result.reflection %>
-      <p class="button"><%= @result.reflection.content %></p>
+    <% if @result.reflections %>
+      <% @result.reflections.each do |refl| %>
+        <p class="button"><%= refl.content %></p>
+      <% end %>
     <% end %>
 
     <p class="menu"><%= link_to "Return to all results", goal_path(@goal) %></p>

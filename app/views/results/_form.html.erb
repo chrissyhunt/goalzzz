@@ -14,15 +14,21 @@
 <% end %>
 
 <%= form_for [@goal, @result] do |f| %>
-  Date: <%= f.date_field :date %><br />
-  Result: <%= f.select :status, Result.statuses.keys %><br />
-  <%= f.fields_for :reflections do |refl| %>
-    Notes:<br />
-    <% if @result.reflection %>
-      <%= refl.text_area :content, cols: 40, rows: 10, value: "#{@result.reflection.content}" %><br>
-    <% else %>
-      <%= refl.text_area :content, cols: 40, rows: 10 %><br>
+  <p>
+    <%= f.label :date, "Date: " %>
+    <%= f.date_field :date %><br />
+    <%= f.label :status, "Result: " %>
+    <%= f.select :status, Result.statuses.keys %>
+  </p>
+
+  <p>
+    <%= f.fields_for :reflections do |refl| %>
+        <%= refl.label "Notes:" %><br />
+        <%= refl.text_area :content, size: "40x10" %><br>
     <% end %>
-  <% end %>
-  <%= f.submit %>
+  </p>
+
+  <p>
+    <%= f.submit %>
+  </p>
 <% end %>
