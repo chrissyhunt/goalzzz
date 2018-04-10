@@ -5,7 +5,6 @@ Rails.application.routes.draw do
   resources :goals do
     resources :results, only: [:new, :create, :show, :edit, :update, :destroy]
   end
-  resources :reflections
   resources :sessions, only: [:create, :destroy]
 
   root 'users#index'

@@ -29,3 +29,11 @@ Then open browser and navigate to https://localhost:3000/.
 ``/users/:id`` - User's home dashboard, with summary of user goals and success rate.
 
 ``/goals`` - Goal landing page, with list of user's goals.
+
+## Contributors Guide
+
+This code is maintained at https://github.com/chrissyhunt87/goalzzz. For any contributions, please open a pull request.
+
+## Licensing Statement
+
+This project has been licensed under the MIT open source license. For more info, see: https://opensource.org/licenses/MIT
