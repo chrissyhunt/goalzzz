@@ -9,12 +9,12 @@ class Goal < ApplicationRecord
   validates :description, :start_date, :end_date, :interval, :user_id, presence: true
 
 
-  def self.total_average_success_rate
-    success_rates = self.all.collect do |goal|
-      goal.success_rate
-    end
-    success_rates.inject(:+) / success_rates.size
-  end
+  # def self.total_average_success_rate
+  #   success_rates = self.all.collect do |goal|
+  #     goal.success_rate
+  #   end
+  #   success_rates.inject(:+) / success_rates.size
+  # end
 
   def self.completed
     self.all.select { |g| g.end_date <= Date.today }
