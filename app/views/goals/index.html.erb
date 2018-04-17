@@ -3,7 +3,7 @@
 <div class="row">
   <div class="col-12 main">
 
-    <h1><%= current_user.name %>'s Goals</h1>
+    <h1><%= current_user.name %>'s <%= 'Completed' if @completed %> Goals</h1>
 
     <div class="row">
       <%= render partial: "goal-priority-col", locals: {col_header: "High Priority", goals: @high_priority_goals} %>
@@ -11,7 +11,11 @@
       <%= render partial: "goal-priority-col", locals: {col_header: "Low Priority", goals: @low_priority_goals} %>
     </div>
 
-    <p class="menu"><%= link_to "View all completed goals", goals_completed_path %></p>
+    <% if @completed %>
+      <p class="menu"><%= link_to "Return to all goals", goals_path %></p>
+    <% else %>
+      <p class="menu"><%= link_to "View all completed goals", goals_completed_path %></p>
+    <% end %>
     <p><%= link_to "Set a new goal", new_goal_path %></p>
 
   </div>

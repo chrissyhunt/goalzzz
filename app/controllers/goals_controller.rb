@@ -11,6 +11,8 @@ class GoalsController < ApplicationController
     @high_priority_goals = Goal.completed.select { |g| g.user_id == current_user.id && g.priority == "high" }
     @medium_priority_goals = Goal.completed.select { |g| g.user_id == current_user.id && g.priority == "medium" }
     @low_priority_goals = Goal.completed.select { |g| g.user_id == current_user.id && g.priority == "low" }
+    @completed = true
+    render :index
   end
 
   def show
