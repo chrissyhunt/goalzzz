@@ -14,7 +14,7 @@
     <% if @completed %>
       <p class="menu"><%= link_to "Return to all goals", goals_path %></p>
     <% else %>
-      <p class="menu"><%= link_to "View all completed goals", goals_completed_path %></p>
+      <p class="menu"><%= link_to "View all completed goals", completed_goals_path %></p>
     <% end %>
     <p><%= link_to "Set a new goal", new_goal_path %></p>
 
