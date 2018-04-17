@@ -15,11 +15,12 @@ class GoalsController < ApplicationController
 
   def show
     @goal = Goal.find_by(id: params[:id])
-    @goal_reflections = @goal.reflections.sort_by { |refl| refl.result.date }
 
-    if @goal.user != current_user
+    # Authorization check
+    if !authorized?(@goal)
       redirect_to goals_path
     else
+      @goal_reflections = @goal.reflections.sort_by { |refl| refl.result.date }
       render :show
     end
   end
@@ -42,7 +43,8 @@ class GoalsController < ApplicationController
   def edit
     @goal = Goal.find_by(id: params[:id])
 
-    if @goal.user != current_user
+    # Authorization check
+    if !authorized?(@goal)
       redirect_to goals_path
     else
       render :edit
@@ -52,7 +54,8 @@ class GoalsController < ApplicationController
   def update
     @goal = Goal.find_by(id: params[:id])
 
-    if @goal.user != current_user
+    # Authorization check
+    if !authorized?(@goal)
       redirect_to goals_path
     else
       @goal.update(goal_params)
@@ -68,7 +71,8 @@ class GoalsController < ApplicationController
   def destroy
     @goal = Goal.find_by(id: params[:id])
 
-    if @goal.user == current_user
+    # Authorization check
+    if authorized?(@goal)
       @goal.delete
       redirect_to goals_path
     else

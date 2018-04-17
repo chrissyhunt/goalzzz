@@ -31,6 +31,7 @@ class UsersController < ApplicationController
   def show
     @user = User.find_by(id: params[:id])
 
+    # Authorization check
     if @user != current_user
       redirect_to user_path(current_user)
     else
@@ -41,7 +42,8 @@ class UsersController < ApplicationController
   def edit
     @user = User.find_by(id: params[:id])
 
-    if @user != current_user
+    # Authorization check
+    if !authorized?(@user)
       redirect_to user_path(current_user)
     else
       render :edit
@@ -51,7 +53,8 @@ class UsersController < ApplicationController
   def update
     @user = User.find_by(id: params[:id])
 
-    if @user != current_user
+    # Authorization check
+    if !authorized?(@user)
       redirect_to user_path(current_user)
     else
       @user.update(user_params)
@@ -66,7 +69,9 @@ class UsersController < ApplicationController
 
   def destroy
     @user = User.find_by(id: params[:id])
-    if @user != current_user
+
+    # Authorization check
+    if !authorized?(@user)
       redirect_to root_path
     else
       @user.delete
