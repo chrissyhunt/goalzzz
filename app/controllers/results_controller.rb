@@ -5,7 +5,7 @@ class ResultsController < ApplicationController
     @goal = Goal.find_by(id: params[:goal_id])
 
     # Authorization check
-    if @goal.user != current_user
+    if !authorized?(@goal)
       redirect_to goals_path
     else
       @result = Result.new
@@ -17,7 +17,7 @@ class ResultsController < ApplicationController
     @goal = Goal.find_by(id: params[:goal_id])
 
     # Authorization check
-    if @goal.user != current_user
+    if !authorized?(@goal)
       redirect_to goals_path
     else
 
@@ -38,7 +38,7 @@ class ResultsController < ApplicationController
     @result = Result.find_by(id: params[:id])
 
     # Authorization check
-    if @goal.user != current_user
+    if !authorized?(@goal)
       redirect_to goals_path
     else
       render :show
@@ -53,7 +53,7 @@ class ResultsController < ApplicationController
     end
 
     # Authorization check
-    if @goal.user != current_user
+    if !authorized?(@goal)
       redirect_to goals_path
     else
       render :edit
@@ -65,7 +65,7 @@ class ResultsController < ApplicationController
     @result = Result.find_by(id: params[:id])
 
     # Authorization check
-    if @goal.user != current_user
+    if !authorized?(@goal)
       redirect_to goals_path
     else
       @result.update(result_params)
@@ -84,7 +84,7 @@ class ResultsController < ApplicationController
     @result = Result.find_by(id: params[:id])
 
     # Authorization check
-    if @goal.user != current_user
+    if !authorized?(@goal)
       redirect_to goals_path
     else
       @result.delete

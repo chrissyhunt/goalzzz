@@ -1,6 +1,6 @@
 class ApplicationController < ActionController::Base
   protect_from_forgery with: :exception
-  helper_method :current_user, :logged_in?
+  helper_method :current_user, :logged_in?, :authorized?
 
   private
 
@@ -16,6 +16,14 @@ class ApplicationController < ActionController::Base
     unless logged_in?
       flash[:error] = "You must be logged in to access these pages."
       redirect_to root_path
+    end
+  end
+
+  def authorized?(obj)
+    if obj.class.name.downcase == "user"
+      obj.id == current_user.id ? true : false
+    else
+      obj.user == current_user ? true : false
     end
   end
 end

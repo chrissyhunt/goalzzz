@@ -6,6 +6,7 @@
     <!-- GOAL SUMMARY INFO -->
     <h1><%= @goal.description %></h1>
 
+    <!-- STATS -->
     <% if @goal.percent_complete >= 100 %>
       <p>This goal is complete! Your success rate was <%= @goal.success_rate.round(1) %>%.</p>
     <% else %>
@@ -13,14 +14,11 @@
     <% end %>
 
     <% if @goal.interval == "monthly" %>
-      <p>Your current success streak is <%= @goal.current_success_streak %> month<%= "s" if @goal.current_success_streak > 1 %>!
-         Your longest success streak is <%= @goal.longest_streak %> month<%= "s" if @goal.longest_streak > 1 %>.</p>
+      <%= render partial: "success_streak", locals: {interval: "month", goal: @goal} %>
     <% elsif @goal.interval == "weekly" %>
-      <p>Your current success streak is <%= @goal.current_success_streak %> week<%= "s" if @goal.current_success_streak > 1 %>!
-         Your longest success streak is <%= @goal.longest_streak %> week<%= "s" if @goal.longest_streak > 1 %>.</p>
+      <%= render partial: "success_streak", locals: {interval: "week", goal: @goal} %>
     <% else %>
-      <p>Your current success streak is <%= @goal.current_success_streak %> day<%= "s" if @goal.current_success_streak > 1 %>!
-         Your longest success streak is <%= @goal.longest_streak %> day<%= "s" if @goal.longest_streak > 1 %>.</p>
+      <%= render partial: "success_streak", locals: {interval: "day", goal: @goal} %>
     <% end %>
 
     <p><%= link_to "Update your results", new_goal_result_path(@goal) %></p>
@@ -29,39 +27,25 @@
 
       <!-- GENERATES ALL DATES IN RANGE FOR RESULTS DISPLAY -->
       <% generate_date_range(@goal.start_date, @goal.end_date, @goal.interval).each do |date| %>
+
           <!-- NO RESULT -->
           <% if !@goal.result_by_date(date) %>
-            <div class="col-1 blank-result">
-              <% if @goal.interval == "monthly" %>
-                <strong><%= date.strftime("%b") %></strong>
-              <% else %>
-                <strong><%= date.strftime("%_m/%d") %></strong>
-              <% end %>
-            </div>
+            <%= render partial: "color_block", locals: {css: "blank-result", goal: @goal, result_exists: false, date: date} %>
+
           <!-- RESULT: SUCCESS -->
           <% elsif @goal.result_by_date(date) && @goal.result_by_date(date).status == "success" %>
-            <div class="col-1 green-result">
-              <% if @goal.interval == "monthly" %>
-                <strong><%= link_to "#{date.strftime("%b")}", goal_result_path(@goal, @goal.result_by_date(date)) %></strong><br />
-              <% else %>
-                <strong><%= link_to "#{date.strftime("%_m/%d")}", goal_result_path(@goal, @goal.result_by_date(date)) %></strong><br />
-              <% end %>
-            </div>
+            <%= render partial: "color_block", locals: {css: "green-result", goal: @goal, result_exists: true, date: date} %>
+
           <!-- RESULT: FAILURE -->
           <% else %>
-            <div class="col-1 red-result">
-              <% if @goal.interval == "monthly" %>
-                <strong><%= link_to "#{date.strftime("%b")}", goal_result_path(@goal, @goal.result_by_date(date)) %></strong><br />
-              <% else %>
-                <strong><%= link_to "#{date.strftime("%_m/%d")}", goal_result_path(@goal, @goal.result_by_date(date)) %></strong><br />
-              <% end %>
-            </div>
+            <%= render partial: "color_block", locals: {css: "red-result", goal: @goal, result_exists: true, date: date} %>
           <% end %>
       <% end %>
     </div>
   </div>
 </div>
 
+<!-- REFLECTIONS -->
 <div class="row">
   <div class="col-12 secondary">
     <h3>Your Thoughts So Far</h3>

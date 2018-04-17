@@ -1,0 +1,20 @@
+<div class="col-1 <%= css %>">
+
+  <!-- Success or failure -->
+  <% if result_exists %>
+    <% if goal.interval == "monthly" %>
+      <strong><%= link_to "#{date.strftime("%b")}", goal_result_path(goal, goal.result_by_date(date)) %></strong><br />
+    <% else %>
+      <strong><%= link_to "#{date.strftime("%_m/%d")}", goal_result_path(goal, goal.result_by_date(date)) %></strong><br />
+    <% end %>
+
+  <!-- No result for date -->
+  <% else %>
+    <% if goal.interval == "monthly" %>
+      <strong><%= date.strftime("%b") %></strong>
+    <% else %>
+      <strong><%= date.strftime("%_m/%d") %></strong>
+    <% end %>
+
+  <% end %>
+</div>
