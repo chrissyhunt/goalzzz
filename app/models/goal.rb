@@ -7,7 +7,7 @@ class Goal < ApplicationRecord
   has_many :successes, -> { where(status: 'success') }, class_name: 'Result'
   has_many :failures, -> { where(status: 'failure') }, class_name: 'Result'
   has_many :reflections, through: :results
-  
+
   validates :description, :start_date, :end_date, :interval, :user_id, presence: true
 
 
@@ -88,7 +88,7 @@ class Goal < ApplicationRecord
       elsif self.interval == "weekly"
         if result == all_successes.first
           current_streak = 1
-        elsif result.date >= all_successes[index-1].date-14 && result.date.cweek == all_successes[index-1].date.cweek-1
+        elsif result.date >= all_successes[index-1].date-13 && result.date.cweek == all_successes[index-1].date.cweek-1
           current_streak += 1
         else
           break
@@ -138,7 +138,7 @@ class Goal < ApplicationRecord
       elsif self.interval == "weekly"
         if current_streak == 0
           current_streak += 1
-        elsif result.date <= all_successes[index-1].date+14 && result.date.cweek == all_successes[index-1].date.cweek+1
+        elsif result.date <= all_successes[index-1].date+13 && result.date.cweek == all_successes[index-1].date.cweek+1
           current_streak += 1
           if current_streak > current_longest_streak
             current_longest_streak = current_streak

@@ -32,7 +32,7 @@ class UsersController < ApplicationController
     @user = User.find_by(id: params[:id])
 
     # Authorization check
-    if @user != current_user
+    if !authorized?(@user)
       redirect_to user_path(current_user)
     else
       render :show
