@@ -25,3 +25,7 @@
 # Ignore .env
 
 /.env
+
+# Ignore local certs
+/localhost.crt
+/localhost.key

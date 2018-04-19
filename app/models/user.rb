@@ -14,4 +14,16 @@ class User < ApplicationRecord
     end
     success_rates.inject(:+) / success_rates.size
   end
+
+  def personal_longest_streak
+    current_longest_streak = 0
+
+    self.goals.each do |goal|
+      if goal.longest_streak > current_longest_streak
+        current_longest_streak = goal.longest_streak
+      end
+    end
+
+    current_longest_streak
+  end
 end
