@@ -19,4 +19,12 @@ module GoalsHelper
     all_dates
   end
 
+  def goals_by_priority(user, priority, completed=false)
+    if completed
+      Goal.completed.select { |g| g.user_id == user.id && g.priority == priority }
+    else
+      user.goals.where(priority: priority)
+    end
+  end
+
 end

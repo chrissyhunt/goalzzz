@@ -2,15 +2,9 @@ class GoalsController < ApplicationController
   before_action :require_login
 
   def index
-    @high_priority_goals = current_user.goals.where(priority: 'high')
-    @medium_priority_goals = current_user.goals.where(priority: 'medium')
-    @low_priority_goals = current_user.goals.where(priority: 'low')
   end
 
   def completed
-    @high_priority_goals = Goal.completed.select { |g| g.user_id == current_user.id && g.priority == "high" }
-    @medium_priority_goals = Goal.completed.select { |g| g.user_id == current_user.id && g.priority == "medium" }
-    @low_priority_goals = Goal.completed.select { |g| g.user_id == current_user.id && g.priority == "low" }
     @completed = true
     render :index
   end

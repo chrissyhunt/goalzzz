@@ -6,9 +6,9 @@
     <h1><%= current_user.name %>'s <%= 'Completed' if @completed %> Goals</h1>
 
     <div class="row">
-      <%= render partial: "goal-priority-col", locals: {col_header: "High Priority", goals: @high_priority_goals} %>
-      <%= render partial: "goal-priority-col", locals: {col_header: "Medium Priority", goals: @medium_priority_goals} %>
-      <%= render partial: "goal-priority-col", locals: {col_header: "Low Priority", goals: @low_priority_goals} %>
+      <%= render partial: "goal-priority-col", locals: {col_header: "High Priority", goals: goals_by_priority(current_user, 'high', @completed)} %>
+      <%= render partial: "goal-priority-col", locals: {col_header: "Medium Priority", goals: goals_by_priority(current_user, 'medium', @completed)} %>
+      <%= render partial: "goal-priority-col", locals: {col_header: "Low Priority", goals: goals_by_priority(current_user, 'low', @completed)} %>
     </div>
 
     <% if @completed %>
