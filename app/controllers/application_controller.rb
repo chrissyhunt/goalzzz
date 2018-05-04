@@ -21,9 +21,9 @@ class ApplicationController < ActionController::Base
 
   def authorized?(obj)
     if obj.class.name.downcase == "user"
-      obj.id == current_user.id ? true : false
+      obj.id == current_user.id
     else
-      obj.user == current_user ? true : false
+      obj.user == current_user
     end
   end
 end
