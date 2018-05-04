@@ -27,4 +27,12 @@ module GoalsHelper
     end
   end
 
+  def goal_intervals
+    Goal.intervals.keys
+  end
+
+  def goal_priorities
+    Goal.priorities.keys
+  end
+
 end
