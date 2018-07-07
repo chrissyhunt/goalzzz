@@ -1,9 +1,13 @@
 class GoalsController < ApplicationController
   before_action :require_login
+  skip_before_action :require_login, only: [:index]
 
   def index
     @goals = Goal.where(:user_id => session[:user_id])
-    render json: @goals
+    respond_to do |format|
+      format.json { render json: @goals }
+      format.html { render :index }
+    end
   end
 
   def completed

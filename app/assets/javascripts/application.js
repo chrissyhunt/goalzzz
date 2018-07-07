@@ -10,8 +10,28 @@
 // Read Sprockets README (https://github.com/rails/sprockets#sprockets-directives) for details
 // about supported directives.
 //
+//= require jquery
+//= require jquery_ujs
 //= require rails-ujs
 //= require turbolinks
 //= require_tree .
 
 let store = {users: [], goals: [], results: [], reflections: []}
+
+$(document).ready(attachListeners);
+
+function attachListeners() {
+
+  $('button#load-goals').on('click', function() {
+    $.ajax({
+      method: 'GET',
+      url: '/goals',
+      contentType: 'application/json'
+    }).done(function(response) {
+      console.log(response);
+    })
+
+  })
+
+
+}
