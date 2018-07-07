@@ -2,6 +2,8 @@ class GoalsController < ApplicationController
   before_action :require_login
 
   def index
+    @goals = Goal.where(:user_id => session[:user_id])
+    render json: @goals
   end
 
   def completed

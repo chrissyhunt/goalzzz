@@ -10,6 +10,10 @@ class Goal {
     store.goals.push(this);
   }
 
+  fetchGoalsByPriority(user, priority, completed=false) {
+    // build from Goal Helper method
+  }
+
   percentComplete() {
     // build from Goal model method
   }
