@@ -28,7 +28,11 @@ function attachListeners() {
       url: '/goals',
       contentType: 'application/json'
     }).done(function(response) {
-      console.log(response);
+      response.forEach(obj => {
+        goal = new Goal(obj.description, obj.start_date, obj.end_date, obj.interval, obj.priority, obj.user_id)
+        console.log(goal)
+      })
+      console.log(store)
     })
 
   })
