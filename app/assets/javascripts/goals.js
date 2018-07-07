@@ -6,6 +6,8 @@ class Goal {
     this.interval = interval;
     this.priority = priority;
     this.userId = userId;
+
+    store.goals.push(this);
   }
 
   percentComplete() {
