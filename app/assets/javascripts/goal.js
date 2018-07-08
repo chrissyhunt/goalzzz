@@ -16,15 +16,16 @@ class Goal {
   generateDateRange() {
     let start = moment(this.startDate)
     let end = moment(this.endDate)
-    let date_range = moment().range(start, end)
-    console.log(date_range)
+    let range = moment().range(start, end)
+    let datesArray;
     if (this.interval === "daily") {
-      //daily logic
+      datesArray = Array.from(range.by('day'))
     } else if (this.interval === "weekly") {
-      //weekly logic
+      datesArray = Array.from(range.by('week'))
     } else {
-      //monthly logic
+      datesArray = Array.from(range.by('month'))
     }
+    return datesArray;
   }
 
   percentComplete() {

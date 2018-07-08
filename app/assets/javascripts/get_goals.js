@@ -44,18 +44,19 @@ function loadGoalResults(goalId) {
   html += `<h1>${goal.description}</h1>`
   html += `<p>(Stats will go here.)</p>`
   html += '<div class="row">'
-  html += generateResultsDisplay(goal.interval);
+  html += generateResultsDisplay(goal);
   // some logic to sort results
   html += '</div></div></div>'
   $('div#content').append(html)
 }
 
-function generateResultsDisplay(interval) {
+function generateResultsDisplay(goal) {
+  let goalDateRange = goal.generateDateRange()
   let html = ''
-  store.results.forEach(result => {
-    let divClass = 'blank-result';
-    //build this out
-  })
+  // store.results.forEach(result => {
+  //   let divClass = 'blank-result';
+  //   //build this out
+  // })
 }
 
 function formatGoalsByPriority(priority) {
