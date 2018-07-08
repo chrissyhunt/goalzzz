@@ -12,17 +12,29 @@ function getGoals() {
 }
 
 function loadGoals() {
-  let goalsHTML = '<div class="col-4">'
-  goalsHTML += '<h4>User Goals</h4>'
-  store.goals.forEach(goal => {
-    goalsHTML += `${goal.description}<br />`
-    goalsHTML += `<span class="end-date">${goal.interval.toUpperCase()}&nbsp;&middot;&nbsp;THROUGH ${goal.endDate}</span><br />`
-  })
-  goalsHTML += '</div>'
-
-  $('div#content').append(goalsHTML)
+  let html = '<div class="col-12 main">'
+  html += '<h1>All Goals</h1>'
+  html = '<div class="row">'
+  html += formatGoalsByPriority("high")
+  html += formatGoalsByPriority("medium")
+  html += formatGoalsByPriority("low")
+  html += '</div></div>'
+  $('div#content').append(html)
 }
 
-function getGoalsByPriority(priority, completed=false) {
-    // build from Goal Helper method
+function formatGoalsByPriority(priority) {
+  let goalsHTML = '<div class="col-4">'
+  goalsHTML += `<h4>${priority}</h4>`
+  let priorityGoals = store.goals.filter(goal => {
+    return goal.priority === priority
+  })
+  if (priorityGoals.length > 0) {
+    priorityGoals.forEach(goal => {
+      goalsHTML += `${goal.description}<br />`
+      goalsHTML += `<span class="end-date">${goal.interval.toUpperCase()}&nbsp;&middot;&nbsp;THROUGH ${goal.endDate}</span><br />`
+    })
+  } else {
+    goalsHTML += '(None.)<br />'
   }
+  return goalsHTML += '</div>'
+}
