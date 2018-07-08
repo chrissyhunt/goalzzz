@@ -34,6 +34,7 @@ gem 'omniauth-facebook'
 gem 'dotenv-rails'
 gem 'active_model_serializers'
 gem 'jquery-rails'
+gem 'momentjs-rails', '~> 2.17', '>= 2.17.1'
 
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development

@@ -38,13 +38,24 @@ function getGoalResults(goal) {
 }
 
 function loadGoalResults(goalId) {
-  let goal = store.goals.filter(goal => goal.id == goalId);
-  console.log(goal)
-
+  let goal = store.goals.filter(goal => goal.id == goalId)[0];
   clearContent();
   let html = '<div class="row"><div class="col-12 main">'
-  html += '<h1></h1>'
-  html += '</div></div>'
+  html += `<h1>${goal.description}</h1>`
+  html += `<p>(Stats will go here.)</p>`
+  html += '<div class="row">'
+  html += generateResultsDisplay(goal.interval);
+  // some logic to sort results
+  html += '</div></div></div>'
+  $('div#content').append(html)
+}
+
+function generateResultsDisplay(interval) {
+  let html = ''
+  store.results.forEach(result => {
+    let divClass = 'blank-result';
+    //build this out
+  })
 }
 
 function formatGoalsByPriority(priority) {
