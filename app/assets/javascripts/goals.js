@@ -1,40 +1,21 @@
-class Goal {
-  constructor(description, startDate, endDate, interval, priority, userId) {
-    this.description = description;
-    this.startDate = startDate;
-    this.endDate = endDate;
-    this.interval = interval;
-    this.priority = priority;
-    this.userId = userId;
+function getGoals() {
+  $.ajax({
+    method: 'GET',
+    url: '/goals',
+    contentType: 'application/json'
+  }).done(function(response) {
+    response.forEach(obj => {
+      new Goal(obj.description, obj.start_date, obj.end_date, obj.interval, obj.priority, obj.user_id)
+    })
+    loadGoals();
+  })
+}
 
-    store.goals.push(this);
-  }
+function loadGoals() {
+  let goalsHTML = '<h4>User Goals</h4>'
+  store.goals.forEach(goal => {
+    goalsHTML += `<p>${goal.description}</p>`
+  })
 
-  fetchGoalsByPriority(user, priority, completed=false) {
-    // build from Goal Helper method
-  }
-
-  percentComplete() {
-    // build from Goal model method
-  }
-
-  getResultsByDate() {
-    // AJAX request to Ruby method
-  }
-
-  getReflectionsByDate() {
-    // AJAX request to Ruby method
-  }
-
-  getSuccessRate() {
-    // AJAX request to Ruby method
-  }
-
-  getCurrentSuccessStreak() {
-    // AJAX request to Ruby method
-  }
-
-  getLongestStreak() {
-    // AJAX request to Ruby method
-  }
+  $('div#content').append(goalsHTML)
 }

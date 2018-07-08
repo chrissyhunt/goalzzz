@@ -15,27 +15,3 @@
 //= require rails-ujs
 //= require turbolinks
 //= require_tree .
-
-let store = {users: [], goals: [], results: [], reflections: []}
-
-$(document).ready(attachListeners);
-
-function attachListeners() {
-
-  $('button#load-goals').on('click', function() {
-    $.ajax({
-      method: 'GET',
-      url: '/goals',
-      contentType: 'application/json'
-    }).done(function(response) {
-      response.forEach(obj => {
-        goal = new Goal(obj.description, obj.start_date, obj.end_date, obj.interval, obj.priority, obj.user_id)
-        console.log(goal)
-      })
-      console.log(store)
-    })
-
-  })
-
-
-}

@@ -1,7 +1,5 @@
 <%= render 'users/header' %>
 
-<button id="load-goals">Load Goals</button>
-
 <div id="content"></div>
 
 <!-- <div class="row">
@@ -24,3 +22,7 @@
 
   </div>
 </div> -->
+<script type="text/javascript" charset="utf-8">
+  let store = {users: [], goals: [], results: [], reflections: []}
+  $(document).ready(getGoals);
+</script>
