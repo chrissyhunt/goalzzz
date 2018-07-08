@@ -1,5 +1,6 @@
 class Goal {
-  constructor(description, startDate, endDate, interval, priority, userId) {
+  constructor(id, description, startDate, endDate, interval, priority, userId) {
+    this.id = id;
     this.description = description;
     this.startDate = startDate;
     this.endDate = endDate;
@@ -7,11 +8,9 @@ class Goal {
     this.priority = priority;
     this.userId = userId;
 
-    store.goals.push(this);
-  }
-
-  fetchGoalsByPriority(user, priority, completed=false) {
-    // build from Goal Helper method
+    if (store.goals.filter(goal => goal.id === this.id).length === 0) {
+      store.goals.push(this);
+    }
   }
 
   percentComplete() {
