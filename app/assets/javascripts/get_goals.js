@@ -67,7 +67,7 @@ function formatGoalsByPriority(priority) {
   if (priorityGoals.length > 0) {
     priorityGoals.forEach(goal => {
       goalsHTML += `<a href="#" data-id="${goal.id}">${goal.description}</a><br />`
-      goalsHTML += `<span class="end-date">${goal.interval.toUpperCase()}&nbsp;&middot;&nbsp;THROUGH ${goal.endDate}</span><br />`
+      goalsHTML += `<span class="end-date">${goal.interval.toUpperCase()}&nbsp;&middot;&nbsp;THROUGH ${moment(goal.endDate).format('M/D/YYYY').toUpperCase()}</span><br />`
     })
   } else {
     goalsHTML += '(None.)<br />'

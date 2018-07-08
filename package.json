@@ -1,5 +1,7 @@
 {
   "name": "goalzzz",
   "private": true,
-  "dependencies": {}
+  "dependencies": {
+    "moment-range": "^4.0.1"
+  }
 }

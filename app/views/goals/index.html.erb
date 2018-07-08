@@ -22,7 +22,9 @@
 
   </div>
 </div> -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment-range/4.0.1/moment-range.js" type="text/javascript"></script>
 <script type="text/javascript" charset="utf-8">
+  window['moment-range'].extendMoment(moment);
   let store = {users: [], goals: [], results: [], reflections: []}
   $(document).ready(getAllGoals);
 </script>

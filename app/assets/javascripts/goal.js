@@ -13,6 +13,20 @@ class Goal {
     }
   }
 
+  generateDateRange() {
+    let start = moment(this.startDate)
+    let end = moment(this.endDate)
+    let date_range = moment().range(start, end)
+    console.log(date_range)
+    if (this.interval === "daily") {
+      //daily logic
+    } else if (this.interval === "weekly") {
+      //weekly logic
+    } else {
+      //monthly logic
+    }
+  }
+
   percentComplete() {
     // build from Goal model method
   }
