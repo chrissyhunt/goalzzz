@@ -23,8 +23,28 @@ function loadAllGoals() {
   setGoalsEventListeners();
 }
 
-function getGoal(goal) {
+function getGoalResults(goal) {
   console.log('load goal triggered, ID: ', goal.dataset.id);
+  $.ajax({
+    method: 'GET',
+    url: `/goals/${goal.dataset.id}.json`,
+    contentType: 'application/json'
+  }).done(function(response) {
+    response.results.forEach(obj => {
+      new Result(obj.id, obj.goal_id, obj.status, obj.date)
+    })
+    loadGoalResults(goal.dataset.id);
+  })
+}
+
+function loadGoalResults(goalId) {
+  let goal = store.goals.filter(goal => goal.id == goalId);
+  console.log(goal)
+
+  clearContent();
+  let html = '<div class="row"><div class="col-12 main">'
+  html += '<h1></h1>'
+  html += '</div></div>'
 }
 
 function formatGoalsByPriority(priority) {
@@ -47,7 +67,7 @@ function formatGoalsByPriority(priority) {
 function setGoalsEventListeners() {
   $('a').on('click', function(e) {
     e.preventDefault();
-    getGoal(e.target);
+    getGoalResults(e.target);
   })
 }
 

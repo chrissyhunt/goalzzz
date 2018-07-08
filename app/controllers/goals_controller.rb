@@ -23,7 +23,10 @@ class GoalsController < ApplicationController
       redirect_to goals_path
     else
       @goal_reflections = @goal.reflections.sort_by { |refl| refl.result.date }
-      render :show
+      respond_to do |format|
+        format.json { render json: @goal }
+        format.html { render :show }
+      end
     end
   end
 

@@ -1,9 +1,12 @@
 class Result {
-  constructor(date, status, goalId) {
-    this.date = date;
-    this.status = status;
+  constructor(id, goalId, status, date) {
+    this.id = id;
     this.goalId = goalId;
+    this.status = status;
+    this.date = date;
 
-    store.results.push(this);
+    if (store.results.filter(result => result.id === this.id).length === 0) {
+      store.results.push(this);
+    }
   }
 }
