@@ -45,18 +45,51 @@ function loadGoalResults(goalId) {
   html += `<p>(Stats will go here.)</p>`
   html += '<div class="row">'
   html += generateResultsDisplay(goal);
-  // some logic to sort results
   html += '</div></div></div>'
   $('div#content').append(html)
 }
 
 function generateResultsDisplay(goal) {
-  let goalDateRange = goal.generateDateRange()
-  let html = ''
-  // store.results.forEach(result => {
-  //   let divClass = 'blank-result';
-  //   //build this out
-  // })
+  if (goal.interval == "daily") {
+    return generateDailyResultsDisplay(goal);
+  } else if (goal.interval == "weekly") {
+    return generateWeeklyResultsDisplay(goal);
+  } else {
+    return generateMonthlyResultsDisplay(goal);
+  }
+}
+
+function generateDailyResultsDisplay(goal) {
+  let goalDatesArray = goal.generateDateRange();
+  console.log('goalDatesArray: ', goalDatesArray);
+  let html = '';
+  goalDatesArray.forEach(date => {
+    let result = store.results.filter(result => result.date === date.format('YYYY-MM-DD'))[0]
+    let resultClass;
+    if (result) {
+      if (result.status == "success") {
+        resultClass="green"
+      } else {
+        resultClass="red"
+      }
+    } else {
+      resultClass = "blank"
+    }
+    html += `<div class="col-1 ${resultClass}-result box">`
+    html += `${date.format('M/D')}`
+    html += '</div>'
+  })
+  return html;
+}
+
+function generateWeeklyResultsDisplay(goal) {
+  console.log('generateWeeklyResultsDisplay triggered')
+  // build out
+}
+
+function generateMonthlyResultsDisplay(goal) {
+  console.log('generateMonthlyResultsDisplay triggered')
+  // build out
 }
 
 function formatGoalsByPriority(priority) {
