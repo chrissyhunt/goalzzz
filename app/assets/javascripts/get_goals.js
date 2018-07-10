@@ -61,8 +61,8 @@ function generateResultsDisplay(goal) {
 
 function generateDailyResultsDisplay(goal) {
   let goalDatesArray = goal.generateDateRange();
-  console.log('goalDatesArray: ', goalDatesArray);
   let html = '';
+  // Using generated array of dates (needed to build display) to check for matching results
   goalDatesArray.forEach(date => {
     let result = store.results.filter(result => result.date === date.format('YYYY-MM-DD'))[0]
     let resultClass;
@@ -83,8 +83,27 @@ function generateDailyResultsDisplay(goal) {
 }
 
 function generateWeeklyResultsDisplay(goal) {
-  console.log('generateWeeklyResultsDisplay triggered')
-  // build out
+  let goalDatesArray = goal.generateDateRange();
+  let html = '';
+  goalDatesArray.forEach(date => {
+    let currentDate = date.format('YYYY-MM-DD');
+    let endOfWeek = date.add(6, 'days').format('YYYY-MM-DD');
+    let resultsInWeek = store.results.filter(result => moment(result.date).isBetween(currentDate, endOfWeek, null, '[]'));
+    let successesInWeek = resultsInWeek.filter(result => result['status'] == "success");
+    let resultClass = "blank";
+    // select for (1) first success, OR (2) first overall result
+    if (successesInWeek.length > 0) {
+      resultClass = "green";
+      //eventually add link val -> first success in here?
+    } else if (resultsInWeek.length > 0) {
+      resultClass = "red";
+      //eventually add link val -> first result in here?
+    };
+    html += `<div class="col-1 ${resultClass}-result box">`;
+    html += `${date.format('M/D')}`;
+    html += '</div>';
+  });
+  return html;
 }
 
 function generateMonthlyResultsDisplay(goal) {
