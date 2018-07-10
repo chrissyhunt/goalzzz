@@ -1,5 +1,6 @@
 class Reflection {
-  constructor(content, resultId) {
+  constructor(id, content, resultId) {
+    this.id = id;
     this.content = content;
     this.resultId = resultId;
 

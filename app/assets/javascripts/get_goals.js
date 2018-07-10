@@ -31,7 +31,10 @@ function getGoalResults(goal) {
     contentType: 'application/json'
   }).done(function(response) {
     response.results.forEach(obj => {
-      new Result(obj.id, obj.goal_id, obj.status, obj.date)
+      new Result(obj.id, obj.goal_id, obj.status, obj.date);
+      obj.reflections.forEach(refl => {
+        new Reflection(refl.id, refl.content, refl.result_id);
+      })
     })
     loadGoalResults(goal.dataset.id);
   })
@@ -48,8 +51,12 @@ function loadGoalResults(goalId) {
   html += '</div></div></div>'
   html += '<div class="row"><div class="col-12 secondary">'
   html += '<h3>Your Thoughts So Far</h3>'
-  // build out Reflections display
+  // build out Reflections display, call generateReflectionsDisplay(goal)
   $('div#content').append(html)
+}
+
+function generateReflectionsDisplay(goal) {
+  
 }
 
 function generateResultsDisplay(goal) {
