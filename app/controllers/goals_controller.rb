@@ -24,7 +24,7 @@ class GoalsController < ApplicationController
     else
       @goal_reflections = @goal.reflections.sort_by { |refl| refl.result.date }
       respond_to do |format|
-        format.json { render json: @goal }
+        format.json { render json: @goal, include: ['results.reflections'] }
         format.html { render :show }
       end
     end

@@ -46,6 +46,9 @@ function loadGoalResults(goalId) {
   html += '<div class="row">'
   html += generateResultsDisplay(goal);
   html += '</div></div></div>'
+  html += '<div class="row"><div class="col-12 secondary">'
+  html += '<h3>Your Thoughts So Far</h3>'
+  // build out Reflections display
   $('div#content').append(html)
 }
 
@@ -107,9 +110,6 @@ function generateWeeklyResultsDisplay(goal) {
 }
 
 function generateMonthlyResultsDisplay(goal) {
-  console.log('generateMonthlyResultsDisplay triggered')
-
-
   let goalDatesArray = goal.generateDateRange();
   let html = '';
   // Using generated array of dates (needed to build display) to check for matching results
