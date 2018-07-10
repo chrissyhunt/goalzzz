@@ -87,7 +87,7 @@ function generateWeeklyResultsDisplay(goal) {
   let html = '';
   goalDatesArray.forEach(date => {
     let currentDate = date.format('YYYY-MM-DD');
-    let endOfWeek = date.add(6, 'days').format('YYYY-MM-DD');
+    let endOfWeek = date.clone().add(6, 'days').format('YYYY-MM-DD');
     let resultsInWeek = store.results.filter(result => moment(result.date).isBetween(currentDate, endOfWeek, null, '[]'));
     let successesInWeek = resultsInWeek.filter(result => result['status'] == "success");
     let resultClass = "blank";
