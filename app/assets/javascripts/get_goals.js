@@ -108,7 +108,28 @@ function generateWeeklyResultsDisplay(goal) {
 
 function generateMonthlyResultsDisplay(goal) {
   console.log('generateMonthlyResultsDisplay triggered')
-  // build out
+
+
+  let goalDatesArray = goal.generateDateRange();
+  let html = '';
+  // Using generated array of dates (needed to build display) to check for matching results
+  goalDatesArray.forEach(date => {
+    let resultsInMonth = store.results.filter(result => moment(result.date).format('MM') === date.format('MM'));
+    let successesInMonth = resultsInMonth.filter(result => result['status'] == "success");
+    let resultClass = "blank";
+    // select for (1) first success, OR (2) first overall result
+    if (successesInMonth.length > 0) {
+      resultClass = "green";
+      //eventually add link val -> first success in here?
+    } else if (resultsInMonth.length > 0) {
+      resultClass = "red";
+      //eventually add link val -> first result in here?
+    };
+    html += `<div class="col-1 ${resultClass}-result box">`;
+    html += `${date.format('MMM')}`;
+    html += '</div>';
+  })
+  return html;
 }
 
 function formatGoalsByPriority(priority) {
