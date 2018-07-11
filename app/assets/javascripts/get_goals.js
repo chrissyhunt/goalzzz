@@ -51,12 +51,35 @@ function loadGoalResults(goalId) {
   html += '</div></div></div>'
   html += '<div class="row"><div class="col-12 secondary">'
   html += '<h3>Your Thoughts So Far</h3>'
+  html += generateReflectionsDisplay(goal);
   // build out Reflections display, call generateReflectionsDisplay(goal)
   $('div#content').append(html)
 }
 
 function generateReflectionsDisplay(goal) {
-  
+  console.log('generateReflectionsDisplay triggered');
+  let reflections = store.reflections.map(function(refl) {
+    let result = store.results.filter(result => result.id === refl.resultId)[0]
+    refl.date = result.date;
+    refl.status = result.status;
+    return refl;
+  }).sort(function(a, b) {
+    return a.date - b.date;
+  })
+
+  let html = '';
+  reflections.forEach(refl => {
+    let success = '';
+    if (refl.status === 'success') {
+      success = '-success'
+    }
+    html += '<div class="row"><div class="col-2">'
+    html += `${moment(refl.date).format('M/D/YYYY')}`
+    html += `</div><div class="col-10 notes-col${success}">`
+    html += `${refl.content}`
+    html += '</div></div>'
+  })
+  return html;
 }
 
 function generateResultsDisplay(goal) {
