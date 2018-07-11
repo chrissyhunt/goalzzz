@@ -5,7 +5,7 @@ function getAllGoals() {
     contentType: 'application/json'
   }).done(function(response) {
     response.forEach(obj => {
-      new Goal(obj.id, obj.description, obj.start_date, obj.end_date, obj.interval, obj.priority, obj.user_id)
+      new Goal(obj.id, obj.description, obj.start_date, obj.end_date, obj.interval, obj.priority, obj.user_id);
     })
     loadAllGoals();
   })
@@ -53,7 +53,8 @@ function loadGoalResults(goalId) {
   html += '<h3>Your Thoughts So Far</h3>'
   html += generateReflectionsDisplay(goal);
   // build out Reflections display, call generateReflectionsDisplay(goal)
-  $('div#content').append(html)
+  $('div#content').append(html);
+  setGoalNavLinkEventListeners();
 }
 
 function generateReflectionsDisplay(goal) {
@@ -79,6 +80,7 @@ function generateReflectionsDisplay(goal) {
     html += `${refl.content}`
     html += '</div></div>'
   })
+  html += `<p class="menu"><a href="#" id="prevgoal" data-id="${goal.id}"><< PREV</a> &nbsp;&nbsp;&nbsp; <a href="#" id="nextgoal" data-id="${goal.id}">NEXT >></a></p>`
   return html;
 }
 
@@ -184,6 +186,17 @@ function setGoalsEventListeners() {
     e.preventDefault();
     getGoalResults(e.target);
   })
+}
+
+function setGoalNavLinkEventListeners() {
+  $('a#prevgoal').on('click', function(e) {
+    e.preventDefault();
+    getPreviousGoal(e.target);
+  });
+  $('a#nextgoal').on('click', function(e) {
+    e.preventDefault();
+    getNextGoal(e.target);
+  });
 }
 
 function clearContent() {
