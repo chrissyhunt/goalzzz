@@ -1,3 +1,5 @@
+// GOAL INDEX DISPLAY FUNCTIONS
+
 function getAllGoals() {
   $.ajax({
     method: 'GET',
@@ -22,6 +24,25 @@ function loadAllGoals() {
   $('div#content').append(html)
   setGoalsEventListeners();
 }
+
+function formatGoalsByPriority(priority) {
+  let goalsHTML = '<div class="col-4">'
+  goalsHTML += `<h4>${priority} PRIORITY</h4>`
+  let priorityGoals = store.goals.filter(goal => {
+    return goal.priority === priority
+  })
+  if (priorityGoals.length > 0) {
+    priorityGoals.forEach(goal => {
+      goalsHTML += `<a href="#" data-id="${goal.id}">${goal.description}</a><br />`
+      goalsHTML += `<span class="end-date">${goal.interval.toUpperCase()}&nbsp;&middot;&nbsp;THROUGH ${moment(goal.endDate).format('M/D/YYYY').toUpperCase()}</span><br />`
+    })
+  } else {
+    goalsHTML += '(None.)<br />'
+  }
+  return goalsHTML += '</div>'
+}
+
+// GOAL SHOW DISPLAY FUNCTIONS
 
 function getGoalResults(goal) {
   console.log('load goal triggered, ID: ', goal.dataset.id);
@@ -164,22 +185,7 @@ function generateMonthlyResultsDisplay(goal) {
   return html;
 }
 
-function formatGoalsByPriority(priority) {
-  let goalsHTML = '<div class="col-4">'
-  goalsHTML += `<h4>${priority} PRIORITY</h4>`
-  let priorityGoals = store.goals.filter(goal => {
-    return goal.priority === priority
-  })
-  if (priorityGoals.length > 0) {
-    priorityGoals.forEach(goal => {
-      goalsHTML += `<a href="#" data-id="${goal.id}">${goal.description}</a><br />`
-      goalsHTML += `<span class="end-date">${goal.interval.toUpperCase()}&nbsp;&middot;&nbsp;THROUGH ${moment(goal.endDate).format('M/D/YYYY').toUpperCase()}</span><br />`
-    })
-  } else {
-    goalsHTML += '(None.)<br />'
-  }
-  return goalsHTML += '</div>'
-}
+// EVENT LISTENERS
 
 function setGoalsEventListeners() {
   $('a').on('click', function(e) {
@@ -198,6 +204,8 @@ function setGoalNavLinkEventListeners() {
     getNextGoal(e.target);
   });
 }
+
+// GENERAL UTILITY
 
 function clearContent() {
   $('div#content').text('')
