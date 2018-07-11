@@ -51,6 +51,8 @@ function getGoalResults(goal) {
     url: `/goals/${goal.dataset.id}.json`,
     contentType: 'application/json'
   }).done(function(response) {
+    clearResults();
+    clearReflections();
     response.results.forEach(obj => {
       new Result(obj.id, obj.goal_id, obj.status, obj.date);
       obj.reflections.forEach(refl => {
@@ -101,8 +103,26 @@ function generateReflectionsDisplay(goal) {
     html += `${refl.content}`
     html += '</div></div>'
   })
-  html += `<p class="menu"><a href="#" id="prevgoal" data-id="${goal.id}"><< PREV</a> &nbsp;&nbsp;&nbsp; <a href="#" id="nextgoal" data-id="${goal.id}">NEXT >></a></p>`
+  html += `<p class="menu"><a href="#" id="prevgoal" data-id="${findPreviousGoal(goal)}"><< PREV</a> &nbsp;&nbsp;&nbsp; <a href="#" id="nextgoal" data-id="${findNextGoalId(goal)}">NEXT >></a></p>`
   return html;
+}
+
+function findNextGoalId(goal) {
+  let storeGoalId = store.goals.indexOf(goal)
+  if (store.goals[storeGoalId+1]) {
+    return store.goals[storeGoalId+1].id;
+  } else {
+    return goal.id;
+  }
+}
+
+function findPreviousGoal(goal) {
+  let storeGoalId = store.goals.indexOf(goal)
+  if (store.goals[storeGoalId-1]) {
+    return store.goals[storeGoalId-1].id;
+  } else {
+    return goal.id;
+  }
 }
 
 function generateResultsDisplay(goal) {
@@ -197,11 +217,11 @@ function setGoalsEventListeners() {
 function setGoalNavLinkEventListeners() {
   $('a#prevgoal').on('click', function(e) {
     e.preventDefault();
-    getPreviousGoal(e.target);
+    getGoalResults(e.target);
   });
   $('a#nextgoal').on('click', function(e) {
     e.preventDefault();
-    getNextGoal(e.target);
+    getGoalResults(e.target);
   });
 }
 
@@ -209,4 +229,12 @@ function setGoalNavLinkEventListeners() {
 
 function clearContent() {
   $('div#content').text('')
+}
+
+function clearResults() {
+  store.results = [];
+}
+
+function clearReflections() {
+  store.reflections = [];
 }
