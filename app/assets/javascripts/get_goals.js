@@ -143,9 +143,9 @@ function generateDailyResultsDisplay(goal) {
   goalDatesArray.forEach(date => {
     let result = store.results.filter(result => result.date === date.format('YYYY-MM-DD'))[0]
     let resultClass;
-    let dataProperty = "";
+    let dataProperty = `data-goal-id="${goal.id}"`;
     if (result) {
-      dataProperty = ` data-id="${result.id}" data-status="${result.status}"`
+      dataProperty += ` data-id="${result.id}" data-status="${result.status}"`
       if (result.status == "success") {
         resultClass="green"
       } else {
@@ -154,7 +154,7 @@ function generateDailyResultsDisplay(goal) {
     } else {
       resultClass = "blank"
     }
-    html += `<div class="col-1 ${resultClass}-result box"${dataProperty}>`
+    html += `<div class="col-1 ${resultClass}-result box" ${dataProperty}>`
     html += `${date.format('M/D')}`
     html += '</div>'
   })
@@ -170,19 +170,19 @@ function generateWeeklyResultsDisplay(goal) {
     let resultsInWeek = store.results.filter(result => moment(result.date).isBetween(currentDate, endOfWeek, null, '[]'));
     let successesInWeek = resultsInWeek.filter(result => result['status'] == "success");
     let resultClass = "blank";
-    let dataProperty = '';
+    let dataProperty = `data-goal-id="${goal.id}"`;
 
     // select for (1) first success, OR (2) first overall result
     if (successesInWeek.length > 0) {
-      dataProperty = ` data-id="${successesInWeek[0]['id']}" data-status="success"`
+      dataProperty += ` data-id="${successesInWeek[0]['id']}" data-status="success"`
       resultClass = "green";
       //eventually add link val -> first success in here?
     } else if (resultsInWeek.length > 0) {
-      dataProperty = ` data-id="${resultsInWeek[0]['id']}" data-status="failure"`
+      dataProperty += ` data-id="${resultsInWeek[0]['id']}" data-status="failure"`
       resultClass = "red";
       //eventually add link val -> first result in here?
     };
-    html += `<div class="col-1 ${resultClass}-result box"${dataProperty}>`;
+    html += `<div class="col-1 ${resultClass}-result box" ${dataProperty}>`;
     html += `${date.format('M/D')}`;
     html += '</div>';
   });
@@ -197,23 +197,58 @@ function generateMonthlyResultsDisplay(goal) {
     let resultsInMonth = store.results.filter(result => moment(result.date).format('MM') === date.format('MM'));
     let successesInMonth = resultsInMonth.filter(result => result['status'] == "success");
     let resultClass = "blank";
-    let dataProperty = "";
+    let dataProperty = `data-goal-id="${goal.id}"`;
     // select for (1) first success, OR (2) first overall result
     if (successesInMonth.length > 0) {
-      dataProperty = ` data-id="${successesInMonth[0]['id']}" data-status="success"`
+      dataProperty += ` data-id="${successesInMonth[0]['id']}" data-status="success"`
       resultClass = "green";
       //eventually add link val -> first success in here?
     } else if (resultsInMonth.length > 0) {
-      dataProperty = ` data-id="${resultsInMonth[0]['id']}" data-status="failure"`
+      dataProperty += ` data-id="${resultsInMonth[0]['id']}" data-status="failure"`
       resultClass = "red";
       //eventually add link val -> first result in here?
     };
-    html += `<div class="col-1 ${resultClass}-result box"${dataProperty}>`;
+    html += `<div class="col-1 ${resultClass}-result box" ${dataProperty}>`;
     html += `${date.format('MMM')}`;
     html += '</div>';
   })
   return html;
 }
+
+// CREATE AND UPDATE RESULTS
+
+function updateResult(target) {
+  console.log('call updateResult on: ', target)
+  let currentStatus = target.dataset.status;
+  let updatedStatus;
+  if (currentStatus === "success") {
+    updatedStatus = "failure";
+  } else {
+    updatedStatus = "success";
+  }
+  let updateData = {
+    'status': `${updatedStatus}`
+  }
+  console.log(updateData);
+  console.log('path: ', `/goals/${target.dataset.goalId}/results/${target.dataset.id}`)
+  // $.ajax({
+  //   method: 'PATCH',
+  //   url: `/goals/${target['dataset']['goal-id']}/results/${target['dataset']['id']}`,
+  //   data: JSON.stringify(updateData)
+  //   contentType: 'application/json'
+  // }).done(function(response) {
+  //   console.log(response);
+  //   let storeResult = store.results.filter(result => result.id === target.dataset.id)[0]
+  //   storeResult.status = updatedStatus;
+  //   // update page display? -> change target class, data-status
+  // })
+}
+
+function createResult(target) {
+
+}
+
+// CREATE AND UPDATE REFLECTIONS
 
 // EVENT LISTENERS
 
@@ -238,11 +273,10 @@ function setGoalNavLinkEventListeners() {
 function setResultBoxEventListeners() {
   $('div.box').on('click', function(e) {
     if (e.target.dataset.id) {
-      console.log('call updateResult on: ', e.target)
-      // updateResult(e.target);
+      updateResult(e.target);
     } else {
       console.log('call createResult on: ', e.target)
-      // createResult(e.target);
+      createResult(e.target);
     }
   })
 }
