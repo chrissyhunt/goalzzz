@@ -78,6 +78,7 @@ function loadGoalResults(goalId) {
   // build out Reflections display, call generateReflectionsDisplay(goal)
   $('div#content').append(html);
   setGoalNavLinkEventListeners();
+  setResultBoxEventListeners();
 }
 
 function generateReflectionsDisplay(goal) {
@@ -103,7 +104,7 @@ function generateReflectionsDisplay(goal) {
     html += `${refl.content}`
     html += '</div></div>'
   })
-  html += `<p class="menu"><a href="#" id="prevgoal" data-id="${findPreviousGoal(goal)}"><< PREV</a> &nbsp;&nbsp;&nbsp; <a href="#" id="nextgoal" data-id="${findNextGoalId(goal)}">NEXT >></a></p>`
+  html += `<p class="menu"><a href="#" id="prevgoal" data-id="${findPreviousGoal(goal)}"><< PREV</a> &nbsp;&middot;&nbsp; <a href="#" id="nextgoal" data-id="${findNextGoalId(goal)}">NEXT >></a></p>`
   return html;
 }
 
@@ -142,7 +143,9 @@ function generateDailyResultsDisplay(goal) {
   goalDatesArray.forEach(date => {
     let result = store.results.filter(result => result.date === date.format('YYYY-MM-DD'))[0]
     let resultClass;
+    let dataProperty = "";
     if (result) {
+      dataProperty = ` data-id="${result.id}" data-status="${result.status}"`
       if (result.status == "success") {
         resultClass="green"
       } else {
@@ -151,7 +154,7 @@ function generateDailyResultsDisplay(goal) {
     } else {
       resultClass = "blank"
     }
-    html += `<div class="col-1 ${resultClass}-result box">`
+    html += `<div class="col-1 ${resultClass}-result box"${dataProperty}>`
     html += `${date.format('M/D')}`
     html += '</div>'
   })
@@ -167,15 +170,19 @@ function generateWeeklyResultsDisplay(goal) {
     let resultsInWeek = store.results.filter(result => moment(result.date).isBetween(currentDate, endOfWeek, null, '[]'));
     let successesInWeek = resultsInWeek.filter(result => result['status'] == "success");
     let resultClass = "blank";
+    let dataProperty = '';
+
     // select for (1) first success, OR (2) first overall result
     if (successesInWeek.length > 0) {
+      dataProperty = ` data-id="${successesInWeek[0]['id']}" data-status="success"`
       resultClass = "green";
       //eventually add link val -> first success in here?
     } else if (resultsInWeek.length > 0) {
+      dataProperty = ` data-id="${resultsInWeek[0]['id']}" data-status="failure"`
       resultClass = "red";
       //eventually add link val -> first result in here?
     };
-    html += `<div class="col-1 ${resultClass}-result box">`;
+    html += `<div class="col-1 ${resultClass}-result box"${dataProperty}>`;
     html += `${date.format('M/D')}`;
     html += '</div>';
   });
@@ -190,15 +197,18 @@ function generateMonthlyResultsDisplay(goal) {
     let resultsInMonth = store.results.filter(result => moment(result.date).format('MM') === date.format('MM'));
     let successesInMonth = resultsInMonth.filter(result => result['status'] == "success");
     let resultClass = "blank";
+    let dataProperty = "";
     // select for (1) first success, OR (2) first overall result
     if (successesInMonth.length > 0) {
+      dataProperty = ` data-id="${successesInMonth[0]['id']}" data-status="success"`
       resultClass = "green";
       //eventually add link val -> first success in here?
     } else if (resultsInMonth.length > 0) {
+      dataProperty = ` data-id="${resultsInMonth[0]['id']}" data-status="failure"`
       resultClass = "red";
       //eventually add link val -> first result in here?
     };
-    html += `<div class="col-1 ${resultClass}-result box">`;
+    html += `<div class="col-1 ${resultClass}-result box"${dataProperty}>`;
     html += `${date.format('MMM')}`;
     html += '</div>';
   })
@@ -223,6 +233,18 @@ function setGoalNavLinkEventListeners() {
     e.preventDefault();
     getGoalResults(e.target);
   });
+}
+
+function setResultBoxEventListeners() {
+  $('div.box').on('click', function(e) {
+    if (e.target.dataset.id) {
+      console.log('call updateResult on: ', e.target)
+      // updateResult(e.target);
+    } else {
+      console.log('call createResult on: ', e.target)
+      // createResult(e.target);
+    }
+  })
 }
 
 // GENERAL UTILITY
