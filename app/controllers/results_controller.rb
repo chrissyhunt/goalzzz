@@ -72,7 +72,7 @@ class ResultsController < ApplicationController
 
       # Update result
       if @result.save
-        redirect_to goal_path(@goal)
+        render json: @result, status: 200
       else
         render :edit
       end
