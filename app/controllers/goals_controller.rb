@@ -1,6 +1,5 @@
 class GoalsController < ApplicationController
   before_action :require_login
-  # skip_before_action :require_login, only: [:index]
 
   def index
     @goals = Goal.where(:user_id => session[:user_id])

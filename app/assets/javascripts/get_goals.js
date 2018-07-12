@@ -231,17 +231,20 @@ function updateResult(target) {
   }
   console.log(updateData);
   console.log('path: ', `/goals/${target.dataset.goalId}/results/${target.dataset.id}`)
-  // $.ajax({
-  //   method: 'PATCH',
-  //   url: `/goals/${target['dataset']['goal-id']}/results/${target['dataset']['id']}`,
-  //   data: JSON.stringify(updateData)
-  //   contentType: 'application/json'
-  // }).done(function(response) {
-  //   console.log(response);
-  //   let storeResult = store.results.filter(result => result.id === target.dataset.id)[0]
-  //   storeResult.status = updatedStatus;
-  //   // update page display? -> change target class, data-status
-  // })
+  $.ajax({
+    method: 'PATCH',
+    url: `/goals/${target.dataset.goalId}/results/${target.dataset.id}`,
+    data: JSON.stringify(updateData),
+    contentType: 'application/json',
+    processData: false,
+    dataType: 'json'
+  }).done(function(response) {
+    console.log(response);
+    let storeResult = store.results.filter(result => result.id === target.dataset.id)[0]
+
+    // storeResult.status = updatedStatus;
+    // update page display? -> change target class, data-status
+  })
 }
 
 function createResult(target) {
