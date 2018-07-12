@@ -238,11 +238,24 @@ function updateResult(target) {
     contentType: 'application/json',
     processData: false,
     dataType: 'json'
-  }).done(function(response) {
-    console.log(response);
+  }).done(function() {
+    console.log('done fires')
     let storeResult = store.results.filter(result => result.id === target.dataset.id)[0]
+    storeResult.status = updatedStatus;
 
-    // storeResult.status = updatedStatus;
+    let newClass;
+    let oldClass;
+    if (updatedStatus === "success") {
+      newClass = "red-result";
+      oldClass = "green-result";
+    } else {
+      newClass = "green-result";
+      oldClass = "red-result"
+    }
+
+    $(target).addClass(newClass).removeClass(oldClass);
+    $(target).data("status", updatedStatus)
+    console.log(target);
     // update page display? -> change target class, data-status
   })
 }
