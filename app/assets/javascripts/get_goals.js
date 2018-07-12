@@ -239,24 +239,22 @@ function updateResult(target) {
     processData: false,
     dataType: 'json'
   }).done(function() {
-    console.log('done fires')
-    let storeResult = store.results.filter(result => result.id === target.dataset.id)[0]
+    let storeResult = store.results.filter(result => result.id == target.dataset.id)[0]
     storeResult.status = updatedStatus;
 
     let newClass;
     let oldClass;
     if (updatedStatus === "success") {
-      newClass = "red-result";
-      oldClass = "green-result";
-    } else {
       newClass = "green-result";
-      oldClass = "red-result"
+      oldClass = "red-result";
+    } else {
+      newClass = "red-result";
+      oldClass = "green-result"
     }
 
-    $(target).addClass(newClass).removeClass(oldClass);
-    $(target).data("status", updatedStatus)
-    console.log(target);
-    // update page display? -> change target class, data-status
+    console.log(storeResult.status);
+    $(`div[data-id="${target.dataset.id}"]`).addClass(newClass).removeClass(oldClass);
+    $(`div[data-id="${target.dataset.id}"]`).attr('data-status', updatedStatus);
   })
 }
 
