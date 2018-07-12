@@ -276,10 +276,10 @@ function createResult(target) {
     dataType: 'json'
   }).done(function(response) {
     let result = new Result(response.id, response.goal_id, response.status, response.date)
-    
+    $(`div[data-full-date="${date}"]`).addClass("green-result").removeClass("blank-result");
+    $(`div[data-full-date="${date}"]`).attr('data-status', 'success');
+    $(`div[data-full-date="${date}"]`).attr('data-id', `${result.id}`);
   })
-  // ajax post request to create
-
 }
 
 // CREATE AND UPDATE REFLECTIONS
