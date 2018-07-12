@@ -143,7 +143,7 @@ function generateDailyResultsDisplay(goal) {
   goalDatesArray.forEach(date => {
     let result = store.results.filter(result => result.date === date.format('YYYY-MM-DD'))[0]
     let resultClass;
-    let dataProperty = `data-goal-id="${goal.id}"`;
+    let dataProperty = `data-goal-id="${goal.id}" data-full-date="${date.format('YYYY-MM-DD')}"`;
     if (result) {
       dataProperty += ` data-id="${result.id}" data-status="${result.status}"`
       if (result.status == "success") {
@@ -170,7 +170,7 @@ function generateWeeklyResultsDisplay(goal) {
     let resultsInWeek = store.results.filter(result => moment(result.date).isBetween(currentDate, endOfWeek, null, '[]'));
     let successesInWeek = resultsInWeek.filter(result => result['status'] == "success");
     let resultClass = "blank";
-    let dataProperty = `data-goal-id="${goal.id}"`;
+    let dataProperty = `data-goal-id="${goal.id}" data-full-date="${currentDate}"`;
 
     // select for (1) first success, OR (2) first overall result
     if (successesInWeek.length > 0) {
@@ -197,7 +197,7 @@ function generateMonthlyResultsDisplay(goal) {
     let resultsInMonth = store.results.filter(result => moment(result.date).format('MM') === date.format('MM'));
     let successesInMonth = resultsInMonth.filter(result => result['status'] == "success");
     let resultClass = "blank";
-    let dataProperty = `data-goal-id="${goal.id}"`;
+    let dataProperty = `data-goal-id="${goal.id}" data-full-date="${date.format('YYYY-MM-DD')}"`;
     // select for (1) first success, OR (2) first overall result
     if (successesInMonth.length > 0) {
       dataProperty += ` data-id="${successesInMonth[0]['id']}" data-status="success"`
@@ -259,6 +259,26 @@ function updateResult(target) {
 }
 
 function createResult(target) {
+  console.log('call createResult on: ', target)
+  let goalId = target.dataset.goalId;
+  let date = target.dataset.fullDate;
+  let createData = {
+    'goal_id': goalId,
+    'date': date,
+    'status': 'success'
+  }
+  $.ajax({
+    method: 'POST',
+    url: `/goals/${goalId}/results/create`,
+    data: JSON.stringify(createData),
+    contentType: 'application/json',
+    processData: false,
+    dataType: 'json'
+  }).done(function(response) {
+    let result = new Result(obj.id, obj.goal_id, obj.status, obj.date)
+    console.log(result)
+  })
+  // ajax post request to create
 
 }
 
@@ -289,7 +309,6 @@ function setResultBoxEventListeners() {
     if (e.target.dataset.id) {
       updateResult(e.target);
     } else {
-      console.log('call createResult on: ', e.target)
       createResult(e.target);
     }
   })
