@@ -269,14 +269,14 @@ function createResult(target) {
   }
   $.ajax({
     method: 'POST',
-    url: `/goals/${goalId}/results/create`,
+    url: `/goals/${goalId}/results`,
     data: JSON.stringify(createData),
     contentType: 'application/json',
     processData: false,
     dataType: 'json'
   }).done(function(response) {
-    let result = new Result(obj.id, obj.goal_id, obj.status, obj.date)
-    console.log(result)
+    let result = new Result(response.id, response.goal_id, response.status, response.date)
+    
   })
   // ajax post request to create
 

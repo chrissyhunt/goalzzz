@@ -26,7 +26,7 @@ class ResultsController < ApplicationController
       @result.goal_id = params[:goal_id]
 
       if @result.save
-        redirect_to goal_path(@goal)
+        render json: @result, status: 200
       else
         render :new
       end
