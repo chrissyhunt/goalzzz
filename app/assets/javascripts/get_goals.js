@@ -79,6 +79,7 @@ function loadGoalResults(goalId) {
   $('div#content').append(html);
   setGoalNavLinkEventListeners();
   setResultBoxEventListeners();
+  setNewResultEventListeners();
 }
 
 function generateReflectionsDisplay(goal) {
@@ -104,13 +105,23 @@ function generateReflectionsDisplay(goal) {
     html += `${refl.content}`
     html += '</div></div>'
   })
+  html += generateNewReflectionForm(goal);
   html += `<p class="menu"><a href="#" id="prevgoal" data-id="${findPreviousGoal(goal)}"><< PREV</a> &nbsp;&middot;&nbsp; <a href="#" id="nextgoal" data-id="${findNextGoalId(goal)}">NEXT >></a></p>`
   return html;
 }
 
 function generateNewReflectionForm(goal) {
-  let html = `<form id="new_result" action="/goals/${goal.id}/results" accept-charset="UTF-8" method="post">`;
-  
+  let html = `<form id="new_result" action="/goals/${goal.id}/results" accept-charset="UTF-8" method="post">`
+  html += '<div class="row"><div class="col-2">'
+  html += `<input type="date" name="result[date]" id="result_date">`
+  html += `</div><div class="col-10 notes-col-success">`
+  html += '<select name="result[status]" id="result_status">'
+  html += '<option value="success">success</option>'
+  html += '<option value="failure">failure</option>'
+  html += '</select>'
+  html += '<input type="text" name="result[reflections_attributes][0][content]" id="result_reflections_attributes_0_content">'
+  html += '<input type="submit" name="commit" value="Submit">'
+  html += '</div></div>'
   html += '</form>';
   return html;
 }
@@ -318,6 +329,13 @@ function setResultBoxEventListeners() {
     } else {
       createResult(e.target);
     }
+  })
+}
+
+function setNewResultEventListeners() {
+  $('form#new_result').on('submit', function(e) {
+    e.preventDefault();
+    alert("Form submitted!");
   })
 }
 
