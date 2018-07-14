@@ -1,4 +1,4 @@
-class ResultsController < ApplicationController
+class ReflectionsController < ApplicationController
   before_action :require_login
 
   def create
