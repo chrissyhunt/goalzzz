@@ -4,9 +4,7 @@ Rails.application.routes.draw do
   resources :users
   resources :goals do
     get 'completed', on: :collection
-    resources :results, only: [:new, :create, :show, :edit, :update, :destroy] do
-      resources :reflections, only: [:create]
-    end
+    resources :results, only: [:new, :create, :show, :edit, :update, :destroy]
   end
   resources :sessions, only: [:create, :destroy]
 

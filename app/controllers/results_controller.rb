@@ -21,9 +21,15 @@ class ResultsController < ApplicationController
       redirect_to goals_path
     else
 
-      # Build result
-      @result = Result.new(result_params)
-      @result.goal_id = params[:goal_id]
+      # Check if result exists already (by date)
+      @result = Result.find_by(date: params[:date], goal_id: params[:goal_id])
+      if @result
+        @result.update(result_params)
+      else
+        # Build result
+        @result = Result.new(result_params)
+        @result.goal_id = params[:goal_id]
+      end
 
       if @result.save
         render json: @result, status: 200
