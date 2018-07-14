@@ -108,6 +108,13 @@ function generateReflectionsDisplay(goal) {
   return html;
 }
 
+function generateNewReflectionForm(goal) {
+  let html = `<form id="new_result" action="/goals/${goal.id}/results" accept-charset="UTF-8" method="post">`;
+  
+  html += '</form>';
+  return html;
+}
+
 function findNextGoalId(goal) {
   let storeGoalId = store.goals.indexOf(goal)
   if (store.goals[storeGoalId+1]) {
