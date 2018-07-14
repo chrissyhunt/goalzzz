@@ -73,13 +73,11 @@ function loadGoalResults(goalId) {
   html += generateResultsDisplay(goal);
   html += '</div></div></div>'
   html += '<div class="row"><div class="col-12 secondary">'
-  html += '<h3>Your Thoughts So Far</h3>'
   html += generateReflectionsDisplay(goal);
   // build out Reflections display, call generateReflectionsDisplay(goal)
   $('div#content').append(html);
   setGoalNavLinkEventListeners();
   setResultBoxEventListeners();
-  setNewResultEventListeners();
 }
 
 function generateReflectionsDisplay(goal) {
@@ -93,7 +91,7 @@ function generateReflectionsDisplay(goal) {
     return a.date - b.date;
   })
 
-  let html = '';
+  let html = '<h3>Your Thoughts So Far</h3>'
   reflections.forEach(refl => {
     let success = '';
     if (refl.status === 'success') {
@@ -105,26 +103,26 @@ function generateReflectionsDisplay(goal) {
     html += `${refl.content}`
     html += '</div></div>'
   })
-  html += generateNewReflectionForm(goal);
+  // html += generateNewReflectionForm(goal);
   html += `<p class="menu"><a href="#" id="prevgoal" data-id="${findPreviousGoal(goal)}"><< PREV</a> &nbsp;&middot;&nbsp; <a href="#" id="nextgoal" data-id="${findNextGoalId(goal)}">NEXT >></a></p>`
   return html;
 }
 
-function generateNewReflectionForm(goal) {
-  let html = `<form id="new_result" action="/goals/${goal.id}/results" accept-charset="UTF-8" method="post">`
-  html += '<div class="row"><div class="col-2">'
-  html += `<input type="date" name="result[date]" id="result_date">`
-  html += `</div><div class="col-10 notes-col-success">`
-  html += '<select name="result[status]" id="result_status">'
-  html += '<option value="success">success</option>'
-  html += '<option value="failure">failure</option>'
-  html += '</select>'
-  html += '<input type="text" name="result[reflections_attributes][0][content]" id="result_reflections_attributes_0_content">'
-  html += '<input type="submit" name="commit" value="Submit">'
-  html += '</div></div>'
-  html += '</form>';
-  return html;
-}
+// function generateNewReflectionForm(goal) {
+//   let html = `<form id="new_result" action="/goals/${goal.id}/results" accept-charset="UTF-8" method="post">`
+//   html += '<div class="row"><div class="col-2">'
+//   html += `<input type="date" name="result[date]" id="result_date">`
+//   html += `</div><div class="col-10 notes-col-success">`
+//   html += '<select name="result[status]" id="result_status">'
+//   html += '<option value="success">success</option>'
+//   html += '<option value="failure">failure</option>'
+//   html += '</select>'
+//   html += '<input type="text" name="result[reflections_attributes][0][content]" id="result_reflections_attributes_0_content">'
+//   html += '<input type="submit" name="commit" value="Submit" data-disable-with="Submit">'
+//   html += '</div></div>'
+//   html += '</form>';
+//   return html;
+// }
 
 function findNextGoalId(goal) {
   let storeGoalId = store.goals.indexOf(goal)
@@ -333,10 +331,20 @@ function setResultBoxEventListeners() {
 }
 
 function setNewResultEventListeners() {
-  $('form#new_result').on('submit', function(e) {
+  $("#new_result").on("submit", function(e){
     e.preventDefault();
-    alert("Form submitted!");
-  })
+    $.ajax({
+      type: "POST",
+      url: this.action,
+      data: $(this).serialize()
+    }).done(function(response) {
+      let reflection = new Reflection(response.reflections[0].id, response.reflections[0].content, response.reflections[0].result_id);
+      let goal = store.goals.filter(goal => goal.id == response.goal_id)[0];
+      console.log(goal)
+      $('div.secondary').empty();
+      $('div.secondary').append(generateReflectionsDisplay(goal));
+    });
+  });
 }
 
 // GENERAL UTILITY
