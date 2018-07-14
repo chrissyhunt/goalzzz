@@ -38,7 +38,7 @@ class GoalsController < ApplicationController
     @goal.user_id = current_user.id
 
     if @goal.save
-      redirect_to goal_path(@goal)
+      render json: @goal, status: 200
     else
       render :new
     end

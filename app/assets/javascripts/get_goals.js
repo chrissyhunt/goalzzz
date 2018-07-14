@@ -24,13 +24,14 @@ function loadAllGoals() {
   html += generateNewGoalForm();
   $('div#content').append(html)
   setGoalsEventListeners();
+  setNewGoalEventListeners();
 }
 
 function generateNewGoalForm() {
   let html = '<div class="row"><div class="col-12 secondary">'
   html += '<h3>Set a New Goal</h3>'
   html += '<form class="new_goal" id="new_goal" action="/goals" accept-charset="UTF-8" method="post">'
-  html += '<input type="hidden" name="authenticity_token" value="">'
+  html += `<input type="hidden" name="authenticity_token" value="${getAuthenticityToken()}">`
   html += '<input type="hidden" name="goal[user_id]" id="goal_user_id">'
   html += 'Describe your goal: <input type="text" name="goal[description]" id="goal_description"><br>'
   html += 'Start Date: <input type="date" name="goal[start_date]" id="goal_start_date"><br>'
@@ -132,22 +133,6 @@ function generateReflectionsDisplay(goal) {
   html += `<p class="menu"><a href="#" id="prevgoal" data-id="${findPreviousGoal(goal)}"><< PREV</a> &nbsp;&middot;&nbsp; <a href="#" id="nextgoal" data-id="${findNextGoalId(goal)}">NEXT >></a></p>`
   return html;
 }
-
-// function generateNewReflectionForm(goal) {
-//   let html = `<form id="new_result" action="/goals/${goal.id}/results" accept-charset="UTF-8" method="post">`
-//   html += '<div class="row"><div class="col-2">'
-//   html += `<input type="date" name="result[date]" id="result_date">`
-//   html += `</div><div class="col-10 notes-col-success">`
-//   html += '<select name="result[status]" id="result_status">'
-//   html += '<option value="success">success</option>'
-//   html += '<option value="failure">failure</option>'
-//   html += '</select>'
-//   html += '<input type="text" name="result[reflections_attributes][0][content]" id="result_reflections_attributes_0_content">'
-//   html += '<input type="submit" name="commit" value="Submit" data-disable-with="Submit">'
-//   html += '</div></div>'
-//   html += '</form>';
-//   return html;
-// }
 
 function findNextGoalId(goal) {
   let storeGoalId = store.goals.indexOf(goal)
@@ -355,21 +340,36 @@ function setResultBoxEventListeners() {
   })
 }
 
-function setNewResultEventListeners() {
-  $("#new_result").on("submit", function(e){
+// function setNewResultEventListeners() {
+//   $("#new_result").on("submit", function(e){
+//     e.preventDefault();
+//     $.ajax({
+//       type: "POST",
+//       url: this.action,
+//       data: $(this).serialize()
+//     }).done(function(response) {
+//       let reflection = new Reflection(response.reflections[0].id, response.reflections[0].content, response.reflections[0].result_id);
+//       let goal = store.goals.filter(goal => goal.id == response.goal_id)[0];
+//       console.log(goal)
+//       $('div.secondary').empty();
+//       $('div.secondary').append(generateReflectionsDisplay(goal));
+//     });
+//   });
+// }
+
+function setNewGoalEventListeners() {
+  $('#new_goal').on("submit", function(e) {
     e.preventDefault();
     $.ajax({
       type: "POST",
       url: this.action,
       data: $(this).serialize()
     }).done(function(response) {
-      let reflection = new Reflection(response.reflections[0].id, response.reflections[0].content, response.reflections[0].result_id);
-      let goal = store.goals.filter(goal => goal.id == response.goal_id)[0];
-      console.log(goal)
-      $('div.secondary').empty();
-      $('div.secondary').append(generateReflectionsDisplay(goal));
-    });
-  });
+      new Goal(response.id, response.description, response.start_date, response.end_date, response.interval, response.priority, response.user_id);
+      clearContent();
+      getAllGoals();
+    })
+  })
 }
 
 // GENERAL UTILITY
@@ -384,4 +384,8 @@ function clearResults() {
 
 function clearReflections() {
   store.reflections = [];
+}
+
+function getAuthenticityToken() {
+  return $('meta[name="csrf-token"]').attr('content')
 }
