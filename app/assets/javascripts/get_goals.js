@@ -14,15 +14,40 @@ function getAllGoals() {
 }
 
 function loadAllGoals() {
-  let html = '<div class="col-12 main">'
+  let html = '<div class="row"><div class="col-12 main">'
   html += '<h1>All Goals</h1>'
   html += '<div class="row">'
   html += formatGoalsByPriority("high")
   html += formatGoalsByPriority("medium")
   html += formatGoalsByPriority("low")
-  html += '</div></div>'
+  html += '</div></div></div>'
+  html += generateNewGoalForm();
   $('div#content').append(html)
   setGoalsEventListeners();
+}
+
+function generateNewGoalForm() {
+  let html = '<div class="row"><div class="col-12 secondary">'
+  html += '<h3>Set a New Goal</h3>'
+  html += '<form class="new_goal" id="new_goal" action="/goals" accept-charset="UTF-8" method="post">'
+  html += '<input type="hidden" name="authenticity_token" value="">'
+  html += '<input type="hidden" name="goal[user_id]" id="goal_user_id">'
+  html += 'Describe your goal: <input type="text" name="goal[description]" id="goal_description"><br>'
+  html += 'Start Date: <input type="date" name="goal[start_date]" id="goal_start_date"><br>'
+  html += 'End Date: <input type="date" name="goal[end_date]" id="goal_end_date"><br>'
+  html += 'Interval: <select name="goal[interval]" id="goal_interval"><br>'
+  html += '<option value="daily">daily</option>'
+  html += '<option value="weekly">weekly</option>'
+  html += '<option value="monthly">monthly</option>'
+  html += '</select><br>'
+  html += 'Priority: <select name="goal[priority]" id="goal_priority"><br>'
+  html += '<option value="high">high</option>'
+  html += '<option value="medium">medium</option>'
+  html += '<option value="low">low</option>'
+  html += '</select><br>'
+  html += '<input type="submit" name="commit" value="Create Goal" data-disable-with="Create Goal">'
+  html += '</form></div></div></div>'
+  return html;
 }
 
 function formatGoalsByPriority(priority) {
