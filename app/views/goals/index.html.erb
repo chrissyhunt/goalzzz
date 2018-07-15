@@ -2,26 +2,6 @@
 
 <div id="content"></div>
 
-<!-- <div class="row">
-  <div class="col-12 main">
-
-    <h1><%= current_user.name %>'s <%= 'Completed' if @completed %> Goals</h1>
-
-    <div class="row">
-      <%= render partial: "goal-priority-col", locals: {col_header: "High Priority", goals: goals_by_priority(current_user, 'high', @completed)} %>
-      <%= render partial: "goal-priority-col", locals: {col_header: "Medium Priority", goals: goals_by_priority(current_user, 'medium', @completed)} %>
-      <%= render partial: "goal-priority-col", locals: {col_header: "Low Priority", goals: goals_by_priority(current_user, 'low', @completed)} %>
-    </div>
-
-    <% if @completed %>
-      <p class="menu"><%= link_to "Return to all goals", goals_path %></p>
-    <% else %>
-      <p class="menu"><%= link_to "View all completed goals", completed_goals_path %></p>
-    <% end %>
-    <p><%= link_to "Set a new goal", new_goal_path %></p>
-
-  </div>
-</div> -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/moment-range/4.0.1/moment-range.js" type="text/javascript"></script>
 <script type="text/javascript" charset="utf-8">
   window['moment-range'].extendMoment(moment);

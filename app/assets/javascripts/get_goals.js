@@ -52,7 +52,7 @@ function generateNewGoalForm() {
 }
 
 function formatGoalsByPriority(priority) {
-  let goalsHTML = '<div class="col-4">'
+  let goalsHTML = `<div class="col-4 ${priority}-priority">`
   goalsHTML += `<h4>${priority} PRIORITY</h4>`
   let priorityGoals = store.goals.filter(goal => {
     return goal.priority === priority
@@ -104,6 +104,13 @@ function loadGoalResults(goalId) {
   $('div#content').append(html);
   setGoalNavLinkEventListeners();
   setResultBoxEventListeners();
+}
+
+function addNewGoalToList(goal) {
+  let priority = goal.priority;
+  let goalHTML = `<a href="#" data-id="${goal.id}">${goal.description}</a><br />`
+  goalHTML += `<span class="end-date">${goal.interval.toUpperCase()}&nbsp;&middot;&nbsp;THROUGH ${moment(goal.endDate).format('M/D/YYYY').toUpperCase()}</span><br />`
+  $(`div.${priority}-priority`).append(goalHTML);
 }
 
 function generateReflectionsDisplay(goal) {
@@ -308,8 +315,6 @@ function createResult(target) {
   })
 }
 
-// CREATE AND UPDATE REFLECTIONS
-
 // EVENT LISTENERS
 
 function setGoalsEventListeners() {
@@ -340,23 +345,6 @@ function setResultBoxEventListeners() {
   })
 }
 
-// function setNewResultEventListeners() {
-//   $("#new_result").on("submit", function(e){
-//     e.preventDefault();
-//     $.ajax({
-//       type: "POST",
-//       url: this.action,
-//       data: $(this).serialize()
-//     }).done(function(response) {
-//       let reflection = new Reflection(response.reflections[0].id, response.reflections[0].content, response.reflections[0].result_id);
-//       let goal = store.goals.filter(goal => goal.id == response.goal_id)[0];
-//       console.log(goal)
-//       $('div.secondary').empty();
-//       $('div.secondary').append(generateReflectionsDisplay(goal));
-//     });
-//   });
-// }
-
 function setNewGoalEventListeners() {
   $('#new_goal').on("submit", function(e) {
     e.preventDefault();
@@ -365,9 +353,11 @@ function setNewGoalEventListeners() {
       url: this.action,
       data: $(this).serialize()
     }).done(function(response) {
-      new Goal(response.id, response.description, response.start_date, response.end_date, response.interval, response.priority, response.user_id);
-      clearContent();
-      getAllGoals();
+      let goal = new Goal(response.id, response.description, response.start_date, response.end_date, response.interval, response.priority, response.user_id);
+      addNewGoalToList(goal);
+      $('input[type=text]').val('');
+      $('input[type=date]').val('');
+      $('select').prop('selectedIndex', 0);
     })
   })
 }
