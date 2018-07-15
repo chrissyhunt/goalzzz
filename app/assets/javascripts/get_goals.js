@@ -46,7 +46,7 @@ function generateNewGoalForm() {
   html += '<option value="medium">medium</option>'
   html += '<option value="low">low</option>'
   html += '</select><br>'
-  html += '<input type="submit" name="commit" value="Create Goal" data-disable-with="Create Goal">'
+  html += '<input type="submit" name="commit" value="Create Goal">'
   html += '</form></div></div></div>'
   return html;
 }
@@ -111,6 +111,8 @@ function addNewGoalToList(goal) {
   let goalHTML = `<a href="#" data-id="${goal.id}">${goal.description}</a><br />`
   goalHTML += `<span class="end-date">${goal.interval.toUpperCase()}&nbsp;&middot;&nbsp;THROUGH ${moment(goal.endDate).format('M/D/YYYY').toUpperCase()}</span><br />`
   $(`div.${priority}-priority`).append(goalHTML);
+  $('a').off();
+  setGoalsEventListeners();
 }
 
 function generateReflectionsDisplay(goal) {
@@ -355,9 +357,7 @@ function setNewGoalEventListeners() {
     }).done(function(response) {
       let goal = new Goal(response.id, response.description, response.start_date, response.end_date, response.interval, response.priority, response.user_id);
       addNewGoalToList(goal);
-      $('input[type=text]').val('');
-      $('input[type=date]').val('');
-      $('select').prop('selectedIndex', 0);
+      $('#new_goal')[0].reset();
     })
   })
 }
