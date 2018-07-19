@@ -78,7 +78,7 @@ class GoalsController < ApplicationController
     # Authorization check
     if authorized?(@goal)
       @goal.delete
-      redirect_to goals_path
+      render body: nil, status: :no_content
     else
       redirect_to go goals_path
     end

@@ -94,6 +94,7 @@ function loadGoalResults(goalId) {
   clearContent();
   let html = '<div class="row"><div class="col-12 main">'
   html += `<h1>${goal.description}</h1>`
+  html += `<p><a href="#" data-goal-id="${goalId}" id="delete">Delete this goal</a></p>`
   html += `<p>(Stats will go here.)</p>`
   html += '<div class="row">'
   html += generateResultsDisplay(goal);
@@ -104,6 +105,7 @@ function loadGoalResults(goalId) {
   $('div#content').append(html);
   setGoalNavLinkEventListeners();
   setResultBoxEventListeners();
+  setGoalDeleteEventListeners();
 }
 
 function addNewGoalToList(goal) {
@@ -250,6 +252,29 @@ function generateMonthlyResultsDisplay(goal) {
   return html;
 }
 
+// DELETE GOALS
+
+function deleteGoal(goalId) {
+  let authToken = getAuthenticityToken();
+  console.log('deleteGoal triggered: ', goalId)
+  $.ajax({
+    method: 'DELETE',
+    url: `/goals/${goalId}`,
+    data: JSON.stringify({token: authToken}),
+    contentType: 'application/json',
+    processData: false,
+    dataType: 'json',
+    success: reloadGoalsAfterDelete(goalId)
+  }).done(function(response) {
+  })
+}
+
+function reloadGoalsAfterDelete() {
+  clearContent();
+  // clear goals from store
+  loadAllGoals();
+}
+
 // CREATE AND UPDATE RESULTS
 
 function updateResult(target) {
@@ -314,51 +339,6 @@ function createResult(target) {
     $(`div[data-full-date="${date}"]`).addClass("green-result").removeClass("blank-result");
     $(`div[data-full-date="${date}"]`).attr('data-status', 'success');
     $(`div[data-full-date="${date}"]`).attr('data-id', `${result.id}`);
-  })
-}
-
-// EVENT LISTENERS
-
-function setGoalsEventListeners() {
-  $('a').on('click', function(e) {
-    e.preventDefault();
-    getGoalResults(e.target);
-  })
-}
-
-function setGoalNavLinkEventListeners() {
-  $('a#prevgoal').on('click', function(e) {
-    e.preventDefault();
-    getGoalResults(e.target);
-  });
-  $('a#nextgoal').on('click', function(e) {
-    e.preventDefault();
-    getGoalResults(e.target);
-  });
-}
-
-function setResultBoxEventListeners() {
-  $('div.box').on('click', function(e) {
-    if (e.target.dataset.id) {
-      updateResult(e.target);
-    } else {
-      createResult(e.target);
-    }
-  })
-}
-
-function setNewGoalEventListeners() {
-  $('#new_goal').on("submit", function(e) {
-    e.preventDefault();
-    $.ajax({
-      type: "POST",
-      url: this.action,
-      data: $(this).serialize()
-    }).done(function(response) {
-      let goal = new Goal(response.id, response.description, response.start_date, response.end_date, response.interval, response.priority, response.user_id);
-      addNewGoalToList(goal);
-      $('#new_goal')[0].reset();
-    })
   })
 }
 
