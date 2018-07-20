@@ -27,28 +27,4 @@ class Goal {
     }
     return datesArray;
   }
-
-  percentComplete() {
-    // build from Goal model method
-  }
-
-  getResultsByDate() {
-    // AJAX request to Ruby method
-  }
-
-  getReflectionsByDate() {
-    // AJAX request to Ruby method
-  }
-
-  getSuccessRate() {
-    // AJAX request to Ruby method
-  }
-
-  getCurrentSuccessStreak() {
-    // AJAX request to Ruby method
-  }
-
-  getLongestStreak() {
-    // AJAX request to Ruby method
-  }
 }
