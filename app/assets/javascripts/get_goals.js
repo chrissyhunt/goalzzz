@@ -76,7 +76,7 @@ function getGoalResults(goal) {
     method: 'GET',
     url: `/goals/${goal.dataset.id}.json`,
     contentType: 'application/json'
-  }).done(function(response) {
+  }).done(response => {
     clearResults();
     clearReflections();
     response.results.forEach(obj => {
@@ -119,12 +119,12 @@ function addNewGoalToList(goal) {
 
 function generateReflectionsDisplay(goal) {
   console.log('generateReflectionsDisplay triggered');
-  let reflections = store.reflections.map(function(refl) {
+  let reflections = store.reflections.map(refl => {
     let result = store.results.filter(result => result.id === refl.resultId)[0]
     refl.date = result.date;
     refl.status = result.status;
     return refl;
-  }).sort(function(a, b) {
+  }).sort((a, b) => {
     return a.date - b.date;
   })
 
@@ -298,7 +298,7 @@ function updateResult(target) {
     contentType: 'application/json',
     processData: false,
     dataType: 'json'
-  }).done(function() {
+  }).done(() => {
     let storeResult = store.results.filter(result => result.id == target.dataset.id)[0]
     storeResult.status = updatedStatus;
 
@@ -334,7 +334,7 @@ function createResult(target) {
     contentType: 'application/json',
     processData: false,
     dataType: 'json'
-  }).done(function(response) {
+  }).done(response => {
     let result = new Result(response.id, response.goal_id, response.status, response.date)
     $(`div[data-full-date="${date}"]`).addClass("green-result").removeClass("blank-result");
     $(`div[data-full-date="${date}"]`).attr('data-status', 'success');
