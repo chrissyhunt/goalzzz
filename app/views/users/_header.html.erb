@@ -2,7 +2,8 @@
     <% if logged_in? %>
       <li class="nav-item"><%= link_to "Home", user_path(current_user) %></li>
       <li class="nav-item"><%= link_to "Edit Your Account", edit_user_path(current_user) %></li>
-      <li class="nav-item"><%= link_to "Your Goals", goals_path %></li>
+      <li class="nav-item"><a href="/goals" id="reloadGoals">Your Goals</a></li>
+      <!-- <li class="nav-item"><%= link_to "Your Goals", goals_path %></li> -->
       <li class="nav-item"><%= link_to "Sign Out", session_path(session), :method => 'delete' %></li>
     <% end %>
   </ul>

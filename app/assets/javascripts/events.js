@@ -51,3 +51,9 @@ function setResultBoxEventListeners() {
     }
   })
 }
+
+function setReloadGoalsEventListeners() {
+  $('a#reloadGoals').on('click', function() {
+    reloadGoals();
+  })
+}

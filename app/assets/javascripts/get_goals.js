@@ -101,11 +101,11 @@ function loadGoalResults(goalId) {
   html += '</div></div></div>'
   html += '<div class="row"><div class="col-12 secondary">'
   html += generateReflectionsDisplay(goal);
-  // build out Reflections display, call generateReflectionsDisplay(goal)
   $('div#content').append(html);
   setGoalNavLinkEventListeners();
   setResultBoxEventListeners();
   setGoalDeleteEventListeners();
+  setReloadGoalsEventListeners();
 }
 
 function addNewGoalToList(goal) {
@@ -358,4 +358,9 @@ function clearReflections() {
 
 function getAuthenticityToken() {
   return $('meta[name="csrf-token"]').attr('content')
+}
+
+function reloadGoals() {
+  clearContent();
+  loadAllGoals();
 }
