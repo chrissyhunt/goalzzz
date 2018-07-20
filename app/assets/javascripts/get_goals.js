@@ -265,13 +265,13 @@ function deleteGoal(goalId) {
     processData: false,
     dataType: 'json',
     success: reloadGoalsAfterDelete(goalId)
-  }).done(function(response) {
   })
 }
 
-function reloadGoalsAfterDelete() {
+function reloadGoalsAfterDelete(goalId) {
   clearContent();
-  // clear goals from store
+  let updatedStoreGoals = store.goals.filter(goal => goal.id != goalId)
+  store.goals = updatedStoreGoals;
   loadAllGoals();
 }
 
