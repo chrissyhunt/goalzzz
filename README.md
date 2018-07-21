@@ -2,6 +2,8 @@
 
 Goalzzz is a productivity app built in Rails, and using bcrypt and Omniauth.
 
+Version 2.0 features a Rails API backend and a jQuery frontend for the '/goals' portion of the application.
+
 ## Installation
 
 Run ``bundle install`` to install all required gems.
@@ -13,6 +15,8 @@ Omniauth login requires a self-signed SSL certificate for HTTPS connection. See 
 https://www.devmynd.com/blog/rails-local-development-https-using-self-signed-ssl-certificate/
 
 Then open browser and navigate to https://localhost:3000/.
+
+(If you do not plan to use Omniauth, you can start the rails server as usual by typing 'rails s' in your terminal, navigate to http://localhost:3000, and create an account manually.)
 
 ## File Structure
 
